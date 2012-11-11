@@ -47,17 +47,42 @@ public class FrmPractica extends javax.swing.JFrame {
         tabContenedor.setEnabledAt(2, si);
     }
     
+   private String[] busLoc(String cir){
+       String[] locali = null;
+        try {
+            String buscarCir = "SELECT localidades FROM vlocalidades where circunscripciones like '"+cir+"'";
+            String countLocal = "SELECT count(*) as cant FROM vlocalidades where circunscripciones like '%"+cir+"%'";
+            z.snt = z.con.createStatement();
+            z.rs = z.snt.executeQuery(countLocal);
+            z.rs.next();
+            locali = new String[Integer.parseInt(z.rs.getString("cant"))];
+            
+            
+            z.rs = z.snt.executeQuery(buscarCir);
+            int i =0;
+            while(z.rs.next()){
+                locali[i] = z.rs.getString("localidades");
+                i++;
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return locali;
+   }
     
     private void modificar(int id){
         if(id != 0){
             try {
-                String sql = "SELECT * FROM vpractica where disponible = 1 and id = "+id;
+                String sql = "SELECT id, titulo, inicio, fin, tema, descripcion, conclusiones, acuerdos, metodologias, localidades, circunscripciones, disponible  FROM vpractica where disponible = 1 and id = "+id;
                 z.snt = z.con.createStatement();
                 z.rs = z.snt.executeQuery(sql);
                 while(z.rs.next()){
-                    //String buscar = "select * from localidades where id ="+Integer.parseInt(z.rs.getString("localidades"))+"limit 1";
+                    String local;
+                    String buscarCir = "SELECT * FROM circunscripciones where descripcion like '"+z.rs.getString("circunscripciones") +"'";
+                    local = z.rs.getString("localidades").toString();
                     txtId.setText(z.rs.getString("id").toString());
-                    txtTitulo.setText(z.rs.getString("Titulo").toString());
+                    txtTitulo.setText(z.rs.getString("titulo").toString());
                     cboInicio.setDate(z.rs.getDate("inicio"));
                     cboFin.setDate(z.rs.getDate("fin"));
                     txtTema.setText(z.rs.getString("tema").toString());
@@ -65,14 +90,22 @@ public class FrmPractica extends javax.swing.JFrame {
                     txtConclusion.setText(z.rs.getString("conclusiones").toString());
                     txtAcuerdos.setText(z.rs.getString("acuerdos").toString());
                     cboMetodologia.setSelectedIndex(z.buscaCod("SELECT id from metodologias where descripcion like '"+z.rs.getString("metodologias")+"'") -1 );
-//                    cboCircunscripciones.setSelectedIndex("circunscripciones");
-//                    cboLocalidad.setSelectedIndex(z.rs.getString("localidades"));
+                    cboCircunscripciones.setSelectedIndex(z.buscaCod(buscarCir) -1);
+                    System.out.println(local);                    
+                    cboLocalidad.setSelectedItem(local);
+//                    for (int i = 0; i < buscarCir.length(); i++) {
+//                        if(busLoc(cboCircunscripciones.getSelectedItem().toString())[i].equals(local)){
+//                            cboLocalidad.setSelectedItem(local);
+//                        }
+//                    }
+
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(FrmPractica.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             habilitarTab(true);
+            action = 2;
         }
         
     }
@@ -691,7 +724,7 @@ public class FrmPractica extends javax.swing.JFrame {
     
     private void circunscripciones(){
         try {
-            String sql = "SELECT * FROM circunscripciones order by descripcion ";
+            String sql = "SELECT * FROM circunscripciones order by id ";
                     z.snt = z.con.createStatement();
                     z.rs = z.snt.executeQuery(sql);
                     cboCircunscripciones.removeAllItems();
