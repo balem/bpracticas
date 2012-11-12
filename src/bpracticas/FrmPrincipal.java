@@ -20,6 +20,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
     static private int modificaras = 0;
     static private String local;
     static private String circuns;
+    static private int evaluar =0;
+
+    public static int getEvaluar() {
+        return evaluar;
+    }
+
+    public static void setEvaluar(int evaluar) {
+        FrmPrincipal.evaluar = evaluar;
+    }
 
     public static String getCircuns() {
         return circuns;
@@ -111,6 +120,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }
     
     
+    private void evaluar(){
+        
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -144,9 +158,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         menSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
+        menHerramientas = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        menUsuario = new javax.swing.JMenuItem();
+        menEvaluar = new javax.swing.JMenuItem();
 
         mModificar.setText("jMenuItem4");
         mModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -310,10 +325,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenu2.setText("Editar");
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Herramientas");
-        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+        menHerramientas.setText("Herramientas");
+        menHerramientas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu3ActionPerformed(evt);
+                menHerramientasActionPerformed(evt);
             }
         });
 
@@ -324,18 +339,28 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem1);
+        menHerramientas.add(jMenuItem1);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setText("Usuarios");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        menUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        menUsuario.setText("Usuarios");
+        menUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                menUsuarioActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem3);
+        menHerramientas.add(menUsuario);
 
-        jMenuBar1.add(jMenu3);
+        menEvaluar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        menEvaluar.setText("Evaluar");
+        menEvaluar.setEnabled(false);
+        menEvaluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menEvaluarActionPerformed(evt);
+            }
+        });
+        menHerramientas.add(menEvaluar);
+
+        jMenuBar1.add(menHerramientas);
 
         setJMenuBar(jMenuBar1);
 
@@ -370,7 +395,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -392,9 +417,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
+    private void menHerramientasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menHerramientasActionPerformed
         
-    }//GEN-LAST:event_jMenu3ActionPerformed
+    }//GEN-LAST:event_menHerramientasActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         FrmCircunscripcion circunscripciones = new FrmCircunscripcion();
@@ -417,6 +442,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_chkFiltroActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        menEvaluar.setEnabled(true);
         if (evt.getClickCount()==2){
             FrmPractica pra = new FrmPractica();
             pra.setVisible(true);
@@ -433,10 +459,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         cargaGrilla();
     }//GEN-LAST:event_txtFiltroKeyReleased
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void menUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menUsuarioActionPerformed
         FrmUsuario usuario = new FrmUsuario();
         usuario.setVisible(true);
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_menUsuarioActionPerformed
 
     private void mBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mBorrarActionPerformed
         borrarPractica();
@@ -472,6 +498,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
             borrarPractica();
         }
     }//GEN-LAST:event_lblBorrarMouseClicked
+
+    private void menEvaluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menEvaluarActionPerformed
+        setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+        new FrmVariables().setVisible(true);
+    }//GEN-LAST:event_menEvaluarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -524,11 +555,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAdd;
@@ -537,7 +566,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel lblRefrescar;
     private javax.swing.JMenuItem mBorrar;
     private javax.swing.JMenuItem mModificar;
+    private javax.swing.JMenuItem menEvaluar;
+    private javax.swing.JMenu menHerramientas;
     private javax.swing.JMenuItem menSalir;
+    private javax.swing.JMenuItem menUsuario;
     private javax.swing.JPanel pnlAcciones;
     private javax.swing.JPopupMenu popMenu;
     private javax.swing.JTable tabla;

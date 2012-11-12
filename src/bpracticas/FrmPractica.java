@@ -106,6 +106,7 @@ public class FrmPractica extends javax.swing.JFrame {
             
             habilitarTab(true);
             action = 2;
+            FrmPrincipal.setModificaras(0);
         }
         
     }
