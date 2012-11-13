@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -40,11 +41,23 @@ public class FrmPractica extends javax.swing.JFrame {
         habilitarTab(false);
         saltoLinea();
         modificar(FrmPrincipal.getModificaras());
+        
     }
     
     private void habilitarTab(boolean si){
         tabContenedor.setEnabledAt(1, si);
         tabContenedor.setEnabledAt(2, si);
+    }
+    
+    
+    private boolean validaPractica(){
+        boolean si = true;
+        if(txtTitulo.getText().length() < 3){
+            JOptionPane.showMessageDialog(null, "El titulo de la práctica no debe quedar vacío y debe contener como mínimo  3 caracteres");
+            txtTitulo.setFocusable(true);
+            si = false;
+        }
+        return si;
     }
     
    private String[] busLoc(String cir){
@@ -677,9 +690,11 @@ public class FrmPractica extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        abm(action);
-        action = 2;
-        habilitarTab(true);
+        //if(validaPractica()){
+            abm(action);
+            action = 2;
+            habilitarTab(true);
+        //}
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnXAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXAutorActionPerformed
@@ -716,7 +731,12 @@ public class FrmPractica extends javax.swing.JFrame {
             z.snt.executeUpdate(sql);
             z.rs = z.snt.executeQuery("select max(id) as id from practicas limit 1;");
             z.rs.next();
-            txtId.setText(z.rs.getString("id"));
+            if(FrmPrincipal.getModificaras() != 0 ){
+                txtId.setText(FrmPrincipal.getModificaras()+"");
+            }else{
+                txtId.setText(z.rs.getString("id"));
+            }
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

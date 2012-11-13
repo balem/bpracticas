@@ -112,7 +112,7 @@ public class FrmUsuario extends javax.swing.JFrame {
         cboRol.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cboRol.setEnabled(false);
 
-        cboEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Activo", "Inactivo"}));
+        cboEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Inactivo", "Activo"}));
         cboEstado.setEnabled(false);
 
         txtClave.setEnabled(false);
@@ -418,12 +418,12 @@ public class FrmUsuario extends javax.swing.JFrame {
     
     private void cargaRol(){
         try {
-            String sql = "SELECT * FROM rol order by descripcion ";
+            String sql = "SELECT * FROM roles where id between 1 and 3 order by nombre asc ";
                 z.snt = z.con.createStatement();
                 z.rs = z.snt.executeQuery(sql);
                 cboRol.removeAllItems();
                 while (z.rs.next()) {
-                    cboRol.addItem(z.rs.getString("descripcion"));
+                    cboRol.addItem(z.rs.getString("nombre"));
                 }
         } catch (SQLException ex) {
             Logger.getLogger(FrmUsuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -434,7 +434,7 @@ public class FrmUsuario extends javax.swing.JFrame {
         int retorno = 0;
         try {
             
-            String sql = "SELECT id FROM " + tabla + " where descripcion = '" + des + "'";
+            String sql = "SELECT id FROM " + tabla + " where nombre = '" + des + "'";
                 z.snt = z.con.createStatement();
                 z.rs = z.snt.executeQuery(sql);
                 z.rs.next();
@@ -493,25 +493,25 @@ public class FrmUsuario extends javax.swing.JFrame {
         HashMd5 hs = new HashMd5();
         try {
             String sql = "";
-                int rol = buscaCod(cboRol.getSelectedItem().toString(), "rol");
+                int rol = buscaCod(cboRol.getSelectedItem().toString(), "roles");
                 if (flag == 1){
                     sql = "INSERT INTO usuario (username, nombre, apellido, email, telefono, rol, estado, password, alta) VALUES ('" + 
                             txtUsername.getText() + "', '" + txtNombre.getText() + "', '" + txtApellido.getText() + 
                             "', '" + txtEmail.getText() + "', '" + txtTelefono.getText() + "', '" +rol +"', '" + 
-                            cboEstado.getSelectedItem().toString() +  "', '"+hs.hash(txtClave.getText().trim().toString())+"', NOW())";
+                            cboEstado.getSelectedIndex()+  "', '"+hs.hash(txtClave.getText().trim().toString())+"', NOW())";
                   //  aut.autitar(FrmAcceso.usuario, "Creó usuario "+txtUsername.getText().toString());
                 }
                 if( flag == 2){
                     if(txtClave.getText().equals(null) || txtClave.getText().toString().trim().equals("")){
                         sql = "UPDATE usuario SET username ='"+txtUsername.getText()+"', nombre = '"+txtNombre.getText()+
                                 "', apellido = '"+txtApellido.getText()+"', email = '"+txtEmail.getText()+"', telefono = '"+
-                        txtTelefono.getText()+"', rol = "+rol+", estado = '"+cboEstado.getSelectedItem()+"' where id = "+
+                        txtTelefono.getText()+"', rol = "+rol+", estado = '"+cboEstado.getSelectedIndex()+"' where id = "+
                                 txtId.getText();
                         //aut.autitar(FrmAcceso.usuario, "actualizó usuario"+txtUsername.getText().toString());
                     }else{
                         sql = "UPDATE usuario SET username ='"+txtUsername.getText()+"', nombre = '"+txtNombre.getText()+
                                 "', apellido = '"+txtApellido.getText()+"', email = '"+txtEmail.getText()+"', telefono = '"+
-                        txtTelefono.getText()+"', rol = "+rol+", estado = '"+cboEstado.getSelectedItem()+"', password = '"+hs.hash(txtClave.getText().trim().toString())+"' where id = "+
+                        txtTelefono.getText()+"', rol = "+rol+", estado = '"+cboEstado.getSelectedIndex()+"', password = '"+hs.hash(txtClave.getText().trim().toString())+"' where id = "+
                                 txtId.getText();
                        // aut.autitar(FrmAcceso.usuario, "actualizó la contraseña del usuario "+txtUsername.getText().toString());
                     }              

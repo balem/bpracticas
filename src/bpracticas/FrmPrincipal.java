@@ -135,8 +135,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         popMenu = new javax.swing.JPopupMenu();
-        mModificar = new javax.swing.JMenuItem();
         mBorrar = new javax.swing.JMenuItem();
+        mModificar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
@@ -158,26 +158,30 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         menSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         menHerramientas = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         menUsuario = new javax.swing.JMenuItem();
         menEvaluar = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
-        mModificar.setText("jMenuItem4");
-        mModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mModificarActionPerformed(evt);
-            }
-        });
-        popMenu.add(mModificar);
-
-        mBorrar.setText("jMenuItem4");
+        mBorrar.setText("Borrar");
         mBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mBorrarActionPerformed(evt);
             }
         });
         popMenu.add(mBorrar);
+
+        mModificar.setText("Modificar");
+        mModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mModificarActionPerformed(evt);
+            }
+        });
+        popMenu.add(mModificar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -323,6 +327,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Editar");
+
+        jMenuItem3.setText("Modificar");
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem5.setText("borrar");
+        jMenu2.add(jMenuItem5);
+
         jMenuBar1.add(jMenu2);
 
         menHerramientas.setText("Herramientas");
@@ -361,6 +372,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menHerramientas.add(menEvaluar);
 
         jMenuBar1.add(menHerramientas);
+
+        jMenu3.setText("Evaluar");
+
+        jMenuItem4.setText("Innovacion");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -429,6 +452,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         FrmPractica practica = new FrmPractica();
         practica.setVisible(true);
+        practica.setLocationRelativeTo(null);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void chkFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkFiltroActionPerformed
@@ -446,6 +470,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         if (evt.getClickCount()==2){
             FrmPractica pra = new FrmPractica();
             pra.setVisible(true);
+            pra.setLocationRelativeTo(null);
         }
             
     }//GEN-LAST:event_tablaMouseClicked
@@ -461,6 +486,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void menUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menUsuarioActionPerformed
         FrmUsuario usuario = new FrmUsuario();
+        usuario.setLocationRelativeTo(null);
         usuario.setVisible(true);
     }//GEN-LAST:event_menUsuarioActionPerformed
 
@@ -474,11 +500,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void mModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mModificarActionPerformed
         setModificaras(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
-        new FrmPractica().setVisible(true);
+        FrmPractica practica = new FrmPractica();
+        practica.setLocationRelativeTo(null);
+        practica.setVisible(true);
     }//GEN-LAST:event_mModificarActionPerformed
 
     private void lblAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseClicked
-        new FrmPractica().setVisible(true);
+        FrmPractica practica = new FrmPractica();
+        practica.setLocationRelativeTo(null);
+        practica.setVisible(true);
     }//GEN-LAST:event_lblAddMouseClicked
 
     private void lblRefrescarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRefrescarMouseClicked
@@ -488,7 +518,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void lblModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModificarMouseClicked
         if(tabla.getSelectedRow() > -1){
             setModificaras(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
-            new FrmPractica().setVisible(true);
+            FrmPractica practica = new FrmPractica();
+            practica.setLocationRelativeTo(null);
+            practica.setVisible(true);
         }
         
     }//GEN-LAST:event_lblModificarMouseClicked
@@ -503,6 +535,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
         new FrmVariables().setVisible(true);
     }//GEN-LAST:event_menEvaluarActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+        FrmInnovacion innovacion = new FrmInnovacion();
+        innovacion.setVisible(true);
+        innovacion.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -555,9 +594,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAdd;
