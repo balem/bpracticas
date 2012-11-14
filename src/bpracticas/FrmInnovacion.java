@@ -29,14 +29,6 @@ public class FrmInnovacion extends javax.swing.JFrame {
     public String[] getObservacion() {
         return observacion;
     }
-
-//    public void setObservacion(String[] observacion) {
-//        for (int i = 0; i < this.observacion.length; i++) {
-//            this.observacion = observacion;
-//        }
-//        
-//    }
-
    
     public String getObsNormalizacion() {
         return obsNormalizacion;
@@ -99,6 +91,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
         }
         recoCombo(listarRecomendaciones(), cboNovedad);
         recoCombo(listarRecomendaciones(), cboNorma);
+        recoCombo(listarRecomendaciones(), cboPromocion);
         recoCombo(listarRecomendaciones(), cboPer4);
         recoCombo(listarRecomendaciones(), cboPer5);
         recoCombo(listarRecomendaciones(), cboPer6);
@@ -186,6 +179,11 @@ public class FrmInnovacion extends javax.swing.JFrame {
             z.snt.execute(sql);
             if(accion == 1){
                 insertarRecomendaiones(cboNovedad, 1);
+                insertarRecomendaiones(cboNorma, 1);
+                insertarRecomendaiones(cboPer4, 1);
+                insertarRecomendaiones(cboPer5, 1);
+                insertarRecomendaiones(cboPer6, 1);
+                insertarRecomendaiones(cboPromocion, 1);
             }
             
             
@@ -195,11 +193,13 @@ public class FrmInnovacion extends javax.swing.JFrame {
             z.snt = z.con.createStatement();
             z.snt.execute(sql);
             
+            
             //insertar evaluación 3
             sql = "CALL revaluacion("+accion+", 3,"+txtId.getText().toString()+",'"+txtNormalizacion.getText().toString()+"', '"+cargaVariable("Innovacion")[2]+"',"+norma+");";
             System.out.println(sql);
             z.snt = z.con.createStatement();
             z.snt.execute(sql);
+            
             
              //insertar evaluacion 4
             sql = "CALL revaluacion("+accion+", 4,"+txtId.getText().toString()+",'"+txtPertinenciaMeto.getText().toString()+"', '"+cargaVariable("Innovacion")[3]+"',"+meto+");";
@@ -207,11 +207,13 @@ public class FrmInnovacion extends javax.swing.JFrame {
             z.snt = z.con.createStatement();
             z.snt.execute(sql);
             
+                
             //insertar evaluacion 5
             sql = "CALL revaluacion("+accion+", 5,"+txtId.getText().toString()+",'"+txtPertinenciaVgen.getText().toString()+"', '"+cargaVariable("Innovacion")[4]+"',"+veng+");";
             System.out.println(sql);
             z.snt = z.con.createStatement();
             z.snt.execute(sql);
+            
             
             //insertar evaluación 6
             sql = "CALL revaluacion("+accion+", 6,"+txtId.getText().toString()+",'"+txtPertienciaTrans.getText().toString()+"', '"+cargaVariable("Innovacion")[5]+"',"+trans+");";
@@ -233,11 +235,12 @@ public class FrmInnovacion extends javax.swing.JFrame {
             z.rs = z.snt.executeQuery(sql);
             while(z.rs.next()){
                 if(z.rs.getString("descripcion").equals(combo.getSelectedItem().toString()))
-                    sqlReco = "INSERT INTO variables_practicas (recomendaciones) VALUES ( (SELECT id FROM recomendaciones where descripcion like '"+cboNovedad.getSelectedItem().toString()+"') where variables = "+variable+" and practicas = "+txtId.getText()+")";
+                    sqlReco = "UPDATE variables_practicas SET recomendaciones  = (SELECT id FROM recomendaciones where descripcion like '"+cboNovedad.getSelectedItem().toString()+"') where variables = "+variable;
+                    //sqlReco = "INSERT INTO variables_practicas (recomendaciones) VALUES ( (SELECT id FROM recomendaciones where descripcion like '"+cboNovedad.getSelectedItem().toString()+"') where variables = "+variable+" and practicas = "+txtId.getText()+")";
             }
             if(sqlReco.equals(null)){
                 z.snt.executeUpdate("INSERT INTO recomendaciones(descripcion) VALUES ('"+combo.getSelectedItem().toString()+"')");
-                sqlReco = "INSERT INTO variables_practicas (recomendaciones) VALUES ( (SELECT id FROM recomendaciones where descripcion like '"+cboNovedad.getSelectedItem().toString()+"') where variables = "+variable+" and practicas = "+txtId.getText()+")";
+                sqlReco = "UPDATE variables_practicas SET recomendaciones  = (SELECT id FROM recomendaciones where descripcion like '"+cboNovedad.getSelectedItem().toString()+"') where variables = "+variable;
             }
             
             z.snt.executeUpdate(sqlReco);
@@ -381,8 +384,8 @@ public class FrmInnovacion extends javax.swing.JFrame {
                     .addGroup(PnlCriterioLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 165, Short.MAX_VALUE))
-                    .addComponent(txtCriterio)
-                    .addComponent(txtPractica))
+                    .addComponent(txtCriterio, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                    .addComponent(txtPractica, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE))
                 .addContainerGap())
         );
         PnlCriterioLayout.setVerticalGroup(
@@ -492,12 +495,13 @@ public class FrmInnovacion extends javax.swing.JFrame {
         pnlNoveadLayout.setVerticalGroup(
             pnlNoveadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNoveadLayout.createSequentialGroup()
-                .addGroup(pnlNoveadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(lblIdNoveadd)
+                .addGroup(pnlNoveadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlNoveadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(rdNovedadSi)
-                        .addComponent(rdNovedadNo)))
+                        .addComponent(rdNovedadNo))
+                    .addGroup(pnlNoveadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(lblIdNoveadd)))
                 .addGap(8, 8, 8)
                 .addComponent(txtNovedadCreatividad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -536,14 +540,14 @@ public class FrmInnovacion extends javax.swing.JFrame {
                         .addComponent(lblIdPromocion, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addComponent(rdPromocionSI)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rdPromocionNO)
                 .addGap(15, 15, 15))
             .addGroup(pnlPromocionLayout.createSequentialGroup()
                 .addComponent(cboPromocion, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(239, Short.MAX_VALUE))
         );
         pnlPromocionLayout.setVerticalGroup(
             pnlPromocionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -587,7 +591,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
                 .addGroup(pnlNormalizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlNormalizacionLayout.createSequentialGroup()
                         .addComponent(txtNormalizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNormalizacionLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lblIdNormalizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -600,7 +604,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
                 .addGap(15, 15, 15))
             .addGroup(pnlNormalizacionLayout.createSequentialGroup()
                 .addComponent(cboNorma, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(239, Short.MAX_VALUE))
         );
         pnlNormalizacionLayout.setVerticalGroup(
             pnlNormalizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -675,7 +679,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
         pnlPertinenciaLayout.setHorizontalGroup(
             pnlPertinenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPertinenciaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(97, Short.MAX_VALUE)
                 .addComponent(lblIdPer4, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -714,7 +718,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(rdPerValGenNO))))
                     .addComponent(cboPer6, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(132, Short.MAX_VALUE))
         );
         pnlPertinenciaLayout.setVerticalGroup(
             pnlPertinenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -726,8 +730,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
                         .addGroup(pnlPertinenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(rdPerMetoSi)
                             .addComponent(rdPerMetoNo))
-                        .addGap(22, 22, 22)
-                        .addGap(24, 24, 24)
+                        .addGap(46, 46, 46)
                         .addGroup(pnlPertinenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(rdPerValGenSi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(rdPerValGenNO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -769,14 +772,14 @@ public class FrmInnovacion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(pnlNormalizacion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(pnlNormalizacion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(PnlCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlNovead, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlPromocion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlPertinencia, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(pnlPertinencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -784,7 +787,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pnlAcciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlAcciones, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                     .addComponent(PnlCriterio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlNovead, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
