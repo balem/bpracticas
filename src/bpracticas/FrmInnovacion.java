@@ -29,15 +29,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
     public String[] getObservacion() {
         return observacion;
     }
-
-//    public void setObservacion(String[] observacion) {
-//        for (int i = 0; i < this.observacion.length; i++) {
-//            this.observacion = observacion;
-//        }
-//        
-//    }
-
-   
+    
     public String getObsNormalizacion() {
         return obsNormalizacion;
     }
@@ -102,6 +94,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
         recoCombo(listarRecomendaciones(), cboPer4);
         recoCombo(listarRecomendaciones(), cboPer5);
         recoCombo(listarRecomendaciones(), cboPer6);
+        recoCombo(listarRecomendaciones(), cboPromocion);
     }
 
     private void selecDefecto(boolean si){
@@ -178,7 +171,21 @@ public class FrmInnovacion extends javax.swing.JFrame {
         }
         
         try {
-            String sql = "CALL revaluacion("+accion+", 1,"+txtId.getText().toString()+",'"+txtNovedadCreatividad.getText().toString()+"', '"+cargaVariable("Innovacion")[0]+"',"+novedad+");";
+            int bnreco = 0;
+            for (int i = 0; i < listarRecomendaciones().length; i++) {
+                if(listarRecomendaciones()[i].equals(cboNovedad.getSelectedItem().toString())){
+                    bnreco++;
+                }
+            }
+            
+            if(bnreco == 0){
+                z.snt.execute("INSERT INTO recomendaciones (descripcion) values('"+cboNovedad.getSelectedItem().toString()+"')");
+                z.rs = z.snt.executeQuery("select max(id) as id from recomendacion");
+                z.rs.next();
+                bnreco = z.rs.getInt("id");
+            }
+            
+            String sql = "CALL revaluacion("+accion+", 1,"+txtId.getText().toString()+",'"+txtNovedadCreatividad.getText().toString()+"', '"+cargaVariable("Innovacion")[0]+"',"+novedad+", "+bnreco+");";
             
             //insertar evaluacion 1
             System.out.println(sql);
@@ -189,35 +196,35 @@ public class FrmInnovacion extends javax.swing.JFrame {
             }
             
             
-            //insertar evaluacion 2
-            sql = "CALL revaluacion("+accion+", 2,"+txtId.getText().toString()+",'"+txtPromocion.getText().toString()+"', '"+cargaVariable("Innovacion")[1]+"',"+promocion+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //insertar evaluación 3
-            sql = "CALL revaluacion("+accion+", 3,"+txtId.getText().toString()+",'"+txtNormalizacion.getText().toString()+"', '"+cargaVariable("Innovacion")[2]+"',"+norma+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-             //insertar evaluacion 4
-            sql = "CALL revaluacion("+accion+", 4,"+txtId.getText().toString()+",'"+txtPertinenciaMeto.getText().toString()+"', '"+cargaVariable("Innovacion")[3]+"',"+meto+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //insertar evaluacion 5
-            sql = "CALL revaluacion("+accion+", 5,"+txtId.getText().toString()+",'"+txtPertinenciaVgen.getText().toString()+"', '"+cargaVariable("Innovacion")[4]+"',"+veng+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //insertar evaluación 6
-            sql = "CALL revaluacion("+accion+", 6,"+txtId.getText().toString()+",'"+txtPertienciaTrans.getText().toString()+"', '"+cargaVariable("Innovacion")[5]+"',"+trans+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
+//            //insertar evaluacion 2
+//            sql = "CALL revaluacion("+accion+", 2,"+txtId.getText().toString()+",'"+txtPromocion.getText().toString()+"', '"+cargaVariable("Innovacion")[1]+"',"+promocion+");";
+//            System.out.println(sql);
+//            z.snt = z.con.createStatement();
+//            z.snt.execute(sql);
+//            
+//            //insertar evaluación 3
+//            sql = "CALL revaluacion("+accion+", 3,"+txtId.getText().toString()+",'"+txtNormalizacion.getText().toString()+"', '"+cargaVariable("Innovacion")[2]+"',"+norma+");";
+//            System.out.println(sql);
+//            z.snt = z.con.createStatement();
+//            z.snt.execute(sql);
+//            
+//             //insertar evaluacion 4
+//            sql = "CALL revaluacion("+accion+", 4,"+txtId.getText().toString()+",'"+txtPertinenciaMeto.getText().toString()+"', '"+cargaVariable("Innovacion")[3]+"',"+meto+");";
+//            System.out.println(sql);
+//            z.snt = z.con.createStatement();
+//            z.snt.execute(sql);
+//            
+//            //insertar evaluacion 5
+//            sql = "CALL revaluacion("+accion+", 5,"+txtId.getText().toString()+",'"+txtPertinenciaVgen.getText().toString()+"', '"+cargaVariable("Innovacion")[4]+"',"+veng+");";
+//            System.out.println(sql);
+//            z.snt = z.con.createStatement();
+//            z.snt.execute(sql);
+//            
+//            //insertar evaluación 6
+//            sql = "CALL revaluacion("+accion+", 6,"+txtId.getText().toString()+",'"+txtPertienciaTrans.getText().toString()+"', '"+cargaVariable("Innovacion")[5]+"',"+trans+");";
+//            System.out.println(sql);
+//            z.snt = z.con.createStatement();
+//            z.snt.execute(sql);
             
             
         } catch (SQLException ex) {
@@ -233,13 +240,12 @@ public class FrmInnovacion extends javax.swing.JFrame {
             z.rs = z.snt.executeQuery(sql);
             while(z.rs.next()){
                 if(z.rs.getString("descripcion").equals(combo.getSelectedItem().toString()))
-                    sqlReco = "INSERT INTO variables_practicas (recomendaciones) VALUES ( (SELECT id FROM recomendaciones where descripcion like '"+cboNovedad.getSelectedItem().toString()+"') where variables = "+variable+" and practicas = "+txtId.getText()+")";
+                    sqlReco = "UPDATE variables_practicas SET recomendaciones=(SELECT id FROM recomendaciones where descripcion like '"+cboNovedad.getSelectedItem().toString()+"') WHERE vvariables = "+variable+" and practicas = "+txtId.getText()+")";
             }
             if(sqlReco.equals(null)){
                 z.snt.executeUpdate("INSERT INTO recomendaciones(descripcion) VALUES ('"+combo.getSelectedItem().toString()+"')");
-                sqlReco = "INSERT INTO variables_practicas (recomendaciones) VALUES ( (SELECT id FROM recomendaciones where descripcion like '"+cboNovedad.getSelectedItem().toString()+"') where variables = "+variable+" and practicas = "+txtId.getText()+")";
+                sqlReco = "UPDATE variables_practicas SET recomendaciones=(SELECT id FROM recomendaciones where descripcion like '"+cboNovedad.getSelectedItem().toString()+"') WHERE vvariables = "+variable+" and practicas = "+txtId.getText()+")";
             }
-            
             z.snt.executeUpdate(sqlReco);
         } catch (SQLException ex) {
             Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
@@ -492,12 +498,13 @@ public class FrmInnovacion extends javax.swing.JFrame {
         pnlNoveadLayout.setVerticalGroup(
             pnlNoveadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNoveadLayout.createSequentialGroup()
-                .addGroup(pnlNoveadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(lblIdNoveadd)
+                .addGroup(pnlNoveadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlNoveadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(rdNovedadSi)
-                        .addComponent(rdNovedadNo)))
+                        .addComponent(rdNovedadNo))
+                    .addGroup(pnlNoveadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(lblIdNoveadd)))
                 .addGap(8, 8, 8)
                 .addComponent(txtNovedadCreatividad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -726,8 +733,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
                         .addGroup(pnlPertinenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(rdPerMetoSi)
                             .addComponent(rdPerMetoNo))
-                        .addGap(22, 22, 22)
-                        .addGap(24, 24, 24)
+                        .addGap(46, 46, 46)
                         .addGroup(pnlPertinenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(rdPerValGenSi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(rdPerValGenNO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
