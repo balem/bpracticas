@@ -176,6 +176,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         menUsuario = new javax.swing.JMenuItem();
         menEva = new javax.swing.JMenu();
+        menEvaInnovación = new javax.swing.JMenuItem();
+        menEvaParticipacion = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
 
         mBorrar.setText("Borrar");
@@ -377,7 +379,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         menEva.setText("Evaluar");
 
-        jMenuItem4.setText("Innovacion");
+        menEvaInnovación.setText("Innovacion");
+        menEvaInnovación.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menEvaInnovaciónActionPerformed(evt);
+            }
+        });
+        menEva.add(menEvaInnovación);
+
+        menEvaParticipacion.setText("Participación");
+        menEvaParticipacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menEvaParticipacionActionPerformed(evt);
+            }
+        });
+        menEva.add(menEvaParticipacion);
+
+        jMenuItem4.setText("Replicabilidad");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -534,11 +552,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lblBorrarMouseClicked
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void menEvaInnovaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menEvaInnovaciónActionPerformed
         setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
         FrmInnovacion innovacion = new FrmInnovacion();
         innovacion.setVisible(true);
         innovacion.setLocationRelativeTo(null);
+    }//GEN-LAST:event_menEvaInnovaciónActionPerformed
+
+    private void menEvaParticipacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menEvaParticipacionActionPerformed
+        setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+        FrmParticipacion participacion = new FrmParticipacion();
+        participacion.setVisible(true);
+        participacion.setLocationRelativeTo(null);
+    }//GEN-LAST:event_menEvaParticipacionActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+        FrmReplicabilidad replicabilidad = new FrmReplicabilidad();
+        replicabilidad.setVisible(true);
+        replicabilidad.setLocationRelativeTo(null);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
@@ -607,6 +639,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mBorrar;
     private javax.swing.JMenuItem mModificar;
     private javax.swing.JMenu menEva;
+    private javax.swing.JMenuItem menEvaInnovación;
+    private javax.swing.JMenuItem menEvaParticipacion;
     private javax.swing.JMenu menHerramientas;
     private javax.swing.JMenuItem menSalir;
     private javax.swing.JMenuItem menUsuario;

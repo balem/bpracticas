@@ -76,6 +76,7 @@ public class FrmUsuario extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("ABM Usuarios");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Registro de Usuarios"));
 
