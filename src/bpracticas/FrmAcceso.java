@@ -23,6 +23,15 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class FrmAcceso extends javax.swing.JFrame {
     static public String  usuario ="";
+    private static int rol = 0;
+
+    public static int getRol() {
+        return rol;
+    }
+
+    public void setRol(int rol) {
+        this.rol = rol;
+    }
     /** Creates new form FrmAcceso */
     public FrmAcceso() {
         initComponents();
@@ -165,7 +174,7 @@ public class FrmAcceso extends javax.swing.JFrame {
     private void ingrsar(){
         try {
             Conexion z = new Conexion();
-            String sql = "select username, password from usuario";
+            String sql = "select rol, username, password from usuario";
             z.snt = z.con.createStatement();
             z.rs = z.snt.executeQuery(sql);
             HashMd5 hs = new HashMd5();
@@ -176,6 +185,7 @@ public class FrmAcceso extends javax.swing.JFrame {
                 if(txtUsuario.getText().trim().equals(z.rs.getString("username")) &&
                         pass.equals(z.rs.getString("password"))){
                     usuario = z.rs.getString("username");
+                    setRol(Integer.parseInt(z.rs.getString("rol")));
                     FrmPrincipal principal = new FrmPrincipal();
                     principal.setLocationRelativeTo(null);
                     principal.setVisible(true);

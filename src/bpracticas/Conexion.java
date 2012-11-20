@@ -15,7 +15,7 @@ public class Conexion {
     Statement snt;
     ResultSet rs;
 
-    static String server = "localhost";
+    static String server = "192.168.1.48";
     static String usr = "bpractica";
     static String pass = "infinito";
     static String db = "bpracticas";

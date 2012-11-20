@@ -310,6 +310,7 @@ public class FrmPractica extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Practica");
 
         pnlIdentidad.setBorder(javax.swing.BorderFactory.createTitledBorder("Identificación de la práctica"));
 
@@ -701,6 +702,7 @@ public class FrmPractica extends javax.swing.JFrame {
         int xa = Integer.parseInt(txtId.getText().toString());
         FrmArea autor = new FrmArea(this, true, xa);
         autor.setVisible(true);
+        autor.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnXAutorActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
