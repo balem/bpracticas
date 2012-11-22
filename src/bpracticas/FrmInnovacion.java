@@ -7,7 +7,6 @@ package bpracticas;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -26,6 +25,24 @@ public class FrmInnovacion extends javax.swing.JFrame {
     private String obsPertinenciaVgen = "";
     private String obsPertienciaTrans = "";
     private String[] observacion = new String[6];
+    private int modficacion = 0;
+
+    public int getModficacion() {
+        return modficacion;
+    }
+
+    public void setModficacion() {
+        try {
+            String sql = "SELECT * FROM practicas where id = "+txtId.getText().toString();
+            z.snt = z.con.createStatement();
+            z.rs = z.snt.executeQuery(sql);
+            z.rs.next();
+            this.modficacion = Integer.parseInt(z.rs.getString("innovacion"));
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 
     public String[] getObservacion() {
         return observacion;
@@ -97,6 +114,9 @@ public class FrmInnovacion extends javax.swing.JFrame {
         recoCombo(listarRecomendaciones(), cboPer5);
         recoCombo(listarRecomendaciones(), cboPer6);
         recoCombo(listarRecomendaciones(), cboPromocion);
+        
+        cargaEvaluacion("Replicabilidad", 9, 7);
+
     }
 
     private void selecDefecto(boolean si){
@@ -125,7 +145,31 @@ public class FrmInnovacion extends javax.swing.JFrame {
         }
         return respuesta;
     }
-    
+   
+    private void cargaEvaluacion(String criterio, int filas, int columnas){
+        try {
+            String[][] arreglo = new String[filas][columnas];
+            
+            String sql = "SELECT * FROM vvarcriterios where factores like '"+criterio+"'";
+            System.out.print(sql);
+            z.snt = z.con.createStatement();
+            z.rs = z.snt.executeQuery(sql);
+            z.rs.next();
+            System.out.println();
+            for (int i = 0; i < filas; i++) {
+                for (int j = 0; j < columnas; j++) {
+                    arreglo[i][j] = z.rs.getString(j+1);
+                    System.out.print(arreglo[i][j]+" - " );
+                }
+                z.rs.next();
+                System.out.println(" * ");
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     private void configPractica(){
         
@@ -861,7 +905,16 @@ public class FrmInnovacion extends javax.swing.JFrame {
        }else{
            int dia = JOptionPane.showConfirmDialog(null, "Esta práctica ya fue evaludad desea modificarla con nueva información", "confirmación", WIDTH);
            if(dia == JOptionPane.YES_OPTION){
-               
+                try {
+                    String sql = "SELECT count(*) as cant FROM vvarcriterios where factores like '"+txtCriterio.getText().toString()+
+                            "' and practicas = "+txtId.getText();
+                    z.snt = z.con.createStatement();
+                    z.rs = z.snt.executeQuery(sql);
+                    z.rs.next();
+                    cargaEvaluacion(txtCriterio.getText().toString(), Integer.parseInt(z.rs.getString("cant")), 7);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
+                }
            }
        }
     }//GEN-LAST:event_btNGuardarActionPerformed

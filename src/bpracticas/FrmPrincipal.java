@@ -5,6 +5,8 @@
 package bpracticas;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,7 +23,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
     static private String local;
     static private String circuns;
     static private int evaluar =0;
+    static private int estEva =0;
 
+    public static int getEstEva() {
+        return estEva;
+    }
+
+    public static void setEstEva(int estEva) {
+        FrmPrincipal.estEva = estEva;
+    }
+    
     public static int getEvaluar() {
         return evaluar;
     }
@@ -104,6 +115,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     
     private void cargaGrilla(){
         try {
+            
             String sql = "SELECT id, titulo, inicio, fin, localidades, circunscripciones FROM vpractica where disponible = 1";
             if(txtFiltro.getText().length() > 0 && !chkFiltro.isSelected())
                 sql = sql+" and titulo like '%"+txtFiltro.getText().toString()+"%'";
@@ -113,6 +125,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             if(txtFiltro.getText().length() > 0 && chkFiltro.isSelected()){
                 sql = sql+" and titulo like '%"+txtFiltro.getText().toString()+"%' and inicio BETWEEN '"+z.dateFormat(cboDesde.getDate()) +"' AND '"+z.dateFormat(cboHasta.getDate()) +"'";
             }
+            
             modelo.setRowCount(0);
             String[] datos = new String[6];
             z.snt = z.con.createStatement();
@@ -553,12 +566,39 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_lblBorrarMouseClicked
 
     private void menEvaInnovaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menEvaInnovaciónActionPerformed
-        setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
-        FrmInnovacion innovacion = new FrmInnovacion();
-        innovacion.setVisible(true);
-        innovacion.setLocationRelativeTo(null);
+//        if (criterio("innovacion") == 0) {
+            setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+            FrmInnovacion innovacion = new FrmInnovacion();
+            innovacion.setVisible(true);
+            innovacion.setLocationRelativeTo(null);
+  //      }else{
+            int a = JOptionPane.showConfirmDialog(this, "Esta práctica ya fue evaluada, desea modifcarla?");
+            if(a == JOptionPane.OK_OPTION){
+                
+    //        }
+        }
+        
     }//GEN-LAST:event_menEvaInnovaciónActionPerformed
 
+    private int saberEvaluar(String factor){
+        int var = 0;
+        try {
+            
+            
+            String sql= "SELECT "+factor+" FROM practicas where id ="+modelo.getValueAt(tabla.getSelectedRow(), 0).toString();
+            z.snt = z.con.createStatement();
+            z.rs = z.snt.executeQuery(sql);
+            z.rs.next();
+            var = Integer.parseInt(z.rs.getString(factor));
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return var;
+    }
+    
+    
     private void menEvaParticipacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menEvaParticipacionActionPerformed
         setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
         FrmParticipacion participacion = new FrmParticipacion();
@@ -567,12 +607,40 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menEvaParticipacionActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
-        FrmReplicabilidad replicabilidad = new FrmReplicabilidad();
-        replicabilidad.setVisible(true);
-        replicabilidad.setLocationRelativeTo(null);
+        if(saberEvaluar("replicabilidad") == 0){
+            setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+            FrmReplicabilidad replicabilidad = new FrmReplicabilidad();
+            replicabilidad.setVisible(true);
+            replicabilidad.setLocationRelativeTo(null);
+        }else{
+            int op = JOptionPane.showConfirmDialog(null,"El criterio para esta práctica ya fue evaluado con anterioridad, desea modificar la evalucaicón","Seleccione una opción",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            if(op == JOptionPane.OK_OPTION){
+                setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+                FrmReplicabilidad replicabilidad = new FrmReplicabilidad();
+                replicabilidad.setVisible(true);
+                replicabilidad.setLocationRelativeTo(null);
+                setEstEva(1);
+            }
+        }
+       
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    
+    private int criterio(String criterio){
+         int valCriterio =0;
+        try {
+            String sql = "SELECT "+criterio+" FROM practicas where id ="+modelo.getValueAt(tabla.getSelectedRow(), 0).toString();
+            z.snt = z.con.createStatement();
+            z.rs = z.snt.executeQuery(sql);
+            z.rs.next();
+            valCriterio = Integer.parseInt(z.rs.getString(1));
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return valCriterio;
+    }
+    
     /**
      * @param args the command line arguments
      */

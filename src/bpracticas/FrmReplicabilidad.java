@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -21,13 +23,19 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 public class FrmReplicabilidad extends javax.swing.JFrame {
     int respuesta = 0;
     Conexion z = new Conexion();
-
     private String[] observacion = new String[9];
-    
     private ArrayList<JComboBox> combos = new ArrayList<JComboBox>();
+    private int imb =1;
+
+    public int getImb() {
+        return imb;
+    }
+
+    public void setImb(int imb) {
+        this.imb = imb;
+    }
     
-
-
+    
     
     /**
      * Creates new form FrmInnovacion
@@ -40,6 +48,12 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
             configPractica();
             selecDefecto(true);
         }
+        
+        if(pregutarEvaluacion("replicabilidad") != 0){
+           cargaEvaluacion(txtCriterio.getText().toString(), 9, 7);
+           setImb(2);
+        }
+        
         recoCombo(listarRecomendaciones(), cboSistemtatizacion);
         recoCombo(listarRecomendaciones(), cboDiseno);
         recoCombo(listarRecomendaciones(), cboDifusion);
@@ -60,9 +74,8 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
         combos.add(cboDifGrupos);
         combos.add(cboOtrasPrac);
         
-
     }
-
+    
     private void selecDefecto(boolean si){
         rdSistemtatizacionNo.setSelected(si);
         rdDisenoNo.setSelected(si);
@@ -84,11 +97,11 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
     private int pregutarEvaluacion(String factor){
         try {
             
-            String sql = "select count(*) as cant from vvarcriterios where factores like '"+factor+"' and practicas = "+txtId.getText().toString();
+            String sql = "SELECT "+factor+" FROM practicas where id = "+txtId.getText().toString();
             z.snt = z.con.createStatement();
             z.rs = z.snt.executeQuery(sql);
             z.rs.next();
-            respuesta = Integer.parseInt(z.rs.getString("cant").toString());
+            respuesta = Integer.parseInt(z.rs.getString(factor).toString());
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -156,69 +169,53 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
     }
     
     private void abm(int accion){
-        int sistema = 0;
-        int diseno = 0;
-        int difusion = 0;
-        int existe = 0;
-        int acciones = 0;
-        int practica = 0;
-        int incorpora = 0;
-        int diferentes = 0;
-        int otras = 0;
+
         
         int[] selecciono = new int[9];
         
         if(rdSistemtatizacionSi.isSelected() && !rdSistemtatizacionNo.isSelected()){
-            sistema = 1;
             selecciono[0] = 1;
         }else{
             selecciono[0] = 0;
         }
         
         if(rdDisenoSi.isSelected() && !rdDisenoNo.isSelected()){
-            diseno = 1;
         selecciono[1] = 1;
         }else{
             selecciono[1] = 0;
         }
         
         if(rdDifGruposSi.isSelected() && !rdDifGruposNo.isSelected()){
-            difusion = 1;
         selecciono[2] = 1;
         }else{
             selecciono[2] = 0;
         }
         
         if(rdEspaciosSi.isSelected() && !rdEspaciosNo.isSelected()){
-            existe = 1;
         selecciono[3] = 1;
         }else{
             selecciono[3] = 0;
         }
         
         if(rdAccionesSi.isSelected() && !rdAccionesNo.isSelected()){
-            acciones = 1;
         selecciono[4] = 1;
         }else{
             selecciono[4] = 0;
         }
         
         if(rdPracPropiciasSi.isSelected() && !rdPracPropiciasNo.isSelected()){
-            practica = 1;
         selecciono[5] = 1;
         }else{
             selecciono[5] = 0;
         }
         
         if(rdincorporacionSi.isSelected() && !rdIncorporacionNo.isSelected()){
-            incorpora = 1;
         selecciono[6] = 1;
         }else{
             selecciono[6] = 0;
         }
         
         if(rdDifGruposSi.isSelected() && !rdDifGruposNo.isSelected()){
-            diferentes = 1;
         selecciono[7] = 1;
         }else{
             selecciono[7] = 0;
@@ -226,7 +223,6 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
         
         
         if(rdOtrasPracSi.isSelected() && !rdOtrasPracNo.isSelected()){
-            otras = 1;
         selecciono[8] = 1;
         }else{
             selecciono[8] = 0;
@@ -247,7 +243,6 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
         
        
         try {
-            //insertar evaluacion 1
             int bnreco;
             int aux = 24;
             String sql;
@@ -274,7 +269,7 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
             z.rs = z.snt.executeQuery(sql);
             z.rs.next();
             datos = new String[z.rs.getInt("id")];
-            sql = "SELECT * FROM recomendaciones limit 10";
+            sql = "SELECT * FROM recomendaciones";
             z.rs = z.snt.executeQuery(sql);
             int i = 0;
             while (z.rs.next()) {            
@@ -289,6 +284,124 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
         return datos;
     }
     
+     private void cargaEvaluacion(String criterio, int filas, int columnas){
+        String[][] arreglo = new String[filas][columnas];
+         try {
+            
+        //cargamos el arreglo    
+            String sql = "SELECT * FROM var_pra_fact where factores like '"+criterio+"'";
+            System.out.print(sql);
+            z.snt = z.con.createStatement();
+            z.rs = z.snt.executeQuery(sql);
+            z.rs.next();
+            System.out.println();
+            for (int i = 0; i < filas; i++) {
+                for (int j = 0; j < columnas; j++) {
+                    arreglo[i][j] = z.rs.getString(j+1);
+                    System.out.print(arreglo[i][j]+" - " );
+                }
+                z.rs.next();
+                System.out.println(" * ");
+            }
+             
+             for (int i = 0; i < filas; i++) {
+                 for (int j = 0; j < columnas; j++) {
+                     
+                 
+                switch (Integer.parseInt(arreglo[i][0])){
+                    case 24: 
+                        txtSistemtatizacion.setText(arreglo[i][2]);
+                        cboSistemtatizacion.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdSistemtatizacionSi.setSelected(true);
+                            rdSistemtatizacionNo.setSelected(false);
+                        }
+                    break;
+                    case 25: 
+                        txtDiseno.setText(arreglo[i][2]);
+                        cboDiseno.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdDisenoSi.setSelected(true);
+                            rdDisenoNo.setSelected(false);
+                        }
+                    break;
+                    case 26: 
+                        txtDifusion.setText(arreglo[i][2]);
+                        cboDifusion.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdDifusionSi.setSelected(true);
+                            rdDifGruposNo.setSelected(false);
+                        }
+                    break;
+                    case 27: 
+                        txtEspacios.setText(arreglo[i][2]);
+                        cboEspacios.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdEspaciosSi.setSelected(true);
+                            rdEspaciosNo.setSelected(false);
+                        }
+                    break;    
+                    case 28: 
+                        txtAcciones.setText(arreglo[i][2]);
+                        cboAcciones.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdAccionesSi.setSelected(true);
+                            rdAccionesNo.setSelected(false);
+                        }
+                    break;
+                    case 29: 
+                        txtPracPropicias.setText(arreglo[i][2]);
+                        cboPracPropicias.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdPracPropiciasSi.setSelected(true);
+                            rdPracPropiciasNo.setSelected(false);
+                        }
+                    break; 
+                    case 30: 
+                        txtIncorporacion.setText(arreglo[i][2]);
+                        cboIncorporacion.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdincorporacionSi.setSelected(true);
+                            rdIncorporacionNo.setSelected(false);
+                        }
+                    break;
+                    case 31: 
+                        txtDifGrupos.setText(arreglo[i][2]);
+                        cboDifGrupos.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdDifGruposSi.setSelected(true);
+                            rdDifGruposNo.setSelected(false);
+                        }
+                    break;
+                    case 32: 
+                        txtOtrasPrac.setText(arreglo[i][2]);
+                        cboOtrasPrac.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdOtrasPracSi.setSelected(true);
+                            rdOtrasPracNo.setSelected(false);
+                        }
+                    break;      
+                }
+                 
+                }
+             }
+             
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+     
+     private void evaluacionHecha(String factor){
+        try {
+            String sql = "UPDATE practicas SET "+factor+" = 1 WHERE id="+txtId.getText().toString();
+            z.snt = z.con.createStatement();
+            z.snt.execute(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmReplicabilidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+     }
+     
     /**
      * 
      * @param recomendaciones 
@@ -976,15 +1089,12 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btNGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNGuardarActionPerformed
-       imprimirarray();
-       if(pregutarEvaluacion("Replicabilidad") == 0){
-            abm(1);
-       }else{
-           int dia = JOptionPane.showConfirmDialog(null, "Confirmación", "Esta práctica ya fue evaluada, desea modificar la evaluación", WIDTH);
-           if(dia == JOptionPane.YES_OPTION){
-               
-           }
-       }
+       //imprimirarray();
+       //if(pregutarEvaluacion("Replicabilidad") == 0){
+            abm(getImb());
+            evaluacionHecha("replicabilidad");
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente");
+            this.dispose();
     }//GEN-LAST:event_btNGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
