@@ -5,6 +5,7 @@
 package bpracticas;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -18,82 +19,16 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 public class FrmInnovacion extends javax.swing.JFrame {
     int respuesta = 0;
     Conexion z = new Conexion();
-    private String obsNovedadCreatividad = "";
-    private String obsPromocion ="";
-    private String obsNormalizacion ="";
-    private String obsPertinenciaMeto ="";
-    private String obsPertinenciaVgen = "";
-    private String obsPertienciaTrans = "";
     private String[] observacion = new String[6];
-    private int modficacion = 0;
+    private ArrayList<JComboBox> combos = new ArrayList<JComboBox>();
+    private int imb =1;
 
-    public int getModficacion() {
-        return modficacion;
+    public int getImb() {
+        return imb;
     }
 
-    public void setModficacion() {
-        try {
-            String sql = "SELECT * FROM practicas where id = "+txtId.getText().toString();
-            z.snt = z.con.createStatement();
-            z.rs = z.snt.executeQuery(sql);
-            z.rs.next();
-            this.modficacion = Integer.parseInt(z.rs.getString("innovacion"));
-        } catch (SQLException ex) {
-            Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-
-    public String[] getObservacion() {
-        return observacion;
-    }
-    
-    public String getObsNormalizacion() {
-        return obsNormalizacion;
-    }
-
-    public void setObsNormalizacion(String obsNormalizacion) {
-        this.obsNormalizacion = obsNormalizacion;
-    }
-
-    public String getObsNovedadCreatividad() {
-        return obsNovedadCreatividad;
-    }
-
-    public void setObsNovedadCreatividad(String obsNovedadCreatividad) {
-        this.obsNovedadCreatividad = obsNovedadCreatividad;
-    }
-
-    public String getObsPertienciaTrans() {
-        return obsPertienciaTrans;
-    }
-
-    public void setObsPertienciaTrans(String obsPertienciaTrans) {
-        this.obsPertienciaTrans = obsPertienciaTrans;
-    }
-
-    public String getObsPertinenciaMeto() {
-        return obsPertinenciaMeto;
-    }
-
-    public void setObsPertinenciaMeto(String obsPertinenciaMeto) {
-        this.obsPertinenciaMeto = obsPertinenciaMeto;
-    }
-
-    public String getObsPertinenciaVgen() {
-        return obsPertinenciaVgen;
-    }
-
-    public void setObsPertinenciaVgen(String obsPertinenciaVgen) {
-        this.obsPertinenciaVgen = obsPertinenciaVgen;
-    }
-
-    public String getObsPromocion() {
-        return obsPromocion;
-    }
-
-    public void setObsPromocion(String obsPromocion) {
-        this.obsPromocion = obsPromocion;
+    public void setImb(int imb) {
+        this.imb = imb;
     }
     
     /**
@@ -107,15 +42,24 @@ public class FrmInnovacion extends javax.swing.JFrame {
             configPractica();
             selecDefecto(true);
         }
+        
+        if(pregutarEvaluacion("innovacion") != 0){
+           cargaEvaluacion(txtCriterio.getText().toString(), 6, 7);
+           setImb(2);
+        }
         recoCombo(listarRecomendaciones(), cboNovedad);
         recoCombo(listarRecomendaciones(), cboNorma);
         recoCombo(listarRecomendaciones(), cboPromocion);
         recoCombo(listarRecomendaciones(), cboPer4);
         recoCombo(listarRecomendaciones(), cboPer5);
         recoCombo(listarRecomendaciones(), cboPer6);
-        recoCombo(listarRecomendaciones(), cboPromocion);
         
-        cargaEvaluacion("Replicabilidad", 9, 7);
+        combos.add(cboNovedad);
+        combos.add(cboNorma);
+        combos.add(cboPromocion);
+        combos.add(cboPer4);
+        combos.add(cboPer5);
+        combos.add(cboPer6);
 
     }
 
@@ -135,46 +79,21 @@ public class FrmInnovacion extends javax.swing.JFrame {
     private int pregutarEvaluacion(String factor){
         try {
             
-            String sql = "select count(*) as cant from vvarcriterios where factores like '"+factor+"' and practicas = "+txtId.getText().toString();
+            String sql = "SELECT "+factor+" FROM practicas where id = "+txtId.getText().toString();
             z.snt = z.con.createStatement();
             z.rs = z.snt.executeQuery(sql);
             z.rs.next();
-            respuesta = Integer.parseInt(z.rs.getString("cant").toString());
+            respuesta = Integer.parseInt(z.rs.getString(factor).toString());
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return respuesta;
     }
-   
-    private void cargaEvaluacion(String criterio, int filas, int columnas){
-        try {
-            String[][] arreglo = new String[filas][columnas];
-            
-            String sql = "SELECT * FROM vvarcriterios where factores like '"+criterio+"'";
-            System.out.print(sql);
-            z.snt = z.con.createStatement();
-            z.rs = z.snt.executeQuery(sql);
-            z.rs.next();
-            System.out.println();
-            for (int i = 0; i < filas; i++) {
-                for (int j = 0; j < columnas; j++) {
-                    arreglo[i][j] = z.rs.getString(j+1);
-                    System.out.print(arreglo[i][j]+" - " );
-                }
-                z.rs.next();
-                System.out.println(" * ");
-            }
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     
     private void configPractica(){
         
         try {
-            String sql = "SELECT Titulo FROM bpracticas.practicas where id = "+txtId.getText();
+            String sql = "SELECT Titulo FROM practicas where id = "+txtId.getText();
             z.snt = z.con.createStatement();
             z.rs = z.snt.executeQuery(sql);
             z.rs.next();
@@ -185,6 +104,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
         
     }
     
+       
     private String[] cargaVariable(String factor){
         try {
             String sql = "SELECT * FROM vvariables where factores like '"+factor+"'";
@@ -198,6 +118,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return this.observacion;
     }
     
@@ -232,84 +153,65 @@ public class FrmInnovacion extends javax.swing.JFrame {
     
     private void abm(int accion){
         
-        int novedad =0;
-        int promocion =0;
-        int norma = 0;
-        int meto =0;
-        int veng = 0;
-        int trans =0;
+        int[] selecciono = new int[6];
+        String[] texto = new String[6];
         
         if(rdNormaSi.isSelected() && !rdNormaNo.isSelected()){
-            norma = 1;
+              selecciono[0] = 1;
+        }else{
+            selecciono[0] = 0;
         }
         
         if(rdNovedadSi.isSelected() && !rdNovedadNo.isSelected()){
-            novedad = 1;
+        selecciono[1] = 1;
+        }else{
+            selecciono[1] = 0;
         }
         
         if(rdPromocionSI.isSelected() && !rdPromocionNO.isSelected()){
-            promocion = 1;
+        selecciono[2] = 1;
+        }else{
+            selecciono[2] = 0;
         }
         
         if(rdPerMetoSi.isSelected() && !rdPerMetoNo.isSelected()){
-            meto = 1;
+            selecciono[3] = 1;
+        }else{
+            selecciono[3] = 0;
         }
         
         if(rdPerValGenSi.isSelected() && !rdPerValGenNO.isSelected()){
-            veng = 1;
+            selecciono[4] = 1;
+        }else{
+            selecciono[4] = 0;
         }
         
         if(rdPerTransSi.isSelected() && !rdPerTransNO.isSelected()){
-            trans = 1;
+            selecciono[5] = 1;
+        }else{
+            selecciono[5] = 0;
         }
         
+        texto[0] = txtNormalizacion.getText().toString();
+        texto[1] = txtNovedadCreatividad.getText().toString();
+        texto[2] = txtPromocion.getText().toString();
+        texto[3] = txtPertinenciaMeto.getText().toString();
+        texto[4] = txtPertinenciaVgen.getText().toString();
+        texto[5] = txtPertienciaTrans.getText().toString();
+        
         try {
-            //insertar evaluacion 1
-            int bnreco = saberRecomendacion(cboNovedad, 0);
-            String sql = "CALL revaluacion("+accion+", 1,"+txtId.getText().toString()+",'"+txtNovedadCreatividad.getText().toString()+"', '"+cargaVariable("Innovacion")[0]+"',"+novedad+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
+            int bnreco;
+            int aux = 1;
+            String sql;
+            for (int i = 0; i < selecciono.length; i++) {
+                bnreco = saberRecomendacion(combos.get(i), 0);
+                sql = "CALL revaluacion("+accion+", "+aux+","+txtId.getText().toString()+",'"+texto[i]+"', 'variable' ,"+selecciono[i]+", "+bnreco+");";
+                System.out.println(sql);
+                z.snt = z.con.createStatement();
+                z.snt.execute(sql);
+                aux++;
+            }
             
-            
-            //insertar evaluacion 2
-            bnreco = saberRecomendacion(cboPromocion, 0);
-            sql = "CALL revaluacion("+accion+", 2,"+txtId.getText().toString()+",'"+txtPromocion.getText().toString()+"', '"+cargaVariable("Innovacion")[1]+"',"+promocion+","+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            
-            //insertar evaluación 3
-            bnreco = saberRecomendacion(cboNorma, 0);
-            sql = "CALL revaluacion("+accion+", 3,"+txtId.getText().toString()+",'"+txtNormalizacion.getText().toString()+"', '"+cargaVariable("Innovacion")[2]+"',"+norma+","+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            
-            //insertar evaluacion 4
-            bnreco = saberRecomendacion(cboPer4, 0);
-            sql = "CALL revaluacion("+accion+", 4,"+txtId.getText().toString()+",'"+txtPertinenciaMeto.getText().toString()+"', '"+cargaVariable("Innovacion")[3]+"',"+meto+","+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-                
-            //insertar evaluacion 5
-            bnreco = saberRecomendacion(cboPer5, 0);
-            sql = "CALL revaluacion("+accion+", 5,"+txtId.getText().toString()+",'"+txtPertinenciaVgen.getText().toString()+"', '"+cargaVariable("Innovacion")[4]+"',"+veng+","+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            
-            //insertar evaluación 6
-            bnreco = saberRecomendacion(cboPer6, 0);
-            sql = "CALL revaluacion("+accion+", 6,"+txtId.getText().toString()+",'"+txtPertienciaTrans.getText().toString()+"', '"+cargaVariable("Innovacion")[5]+"',"+trans+","+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
         } catch (SQLException ex) {
             Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -324,7 +226,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
             z.rs = z.snt.executeQuery(sql);
             z.rs.next();
             datos = new String[z.rs.getInt("id")];
-            sql = "SELECT * FROM recomendaciones limit 10";
+            sql = "SELECT * FROM recomendaciones";
             z.rs = z.snt.executeQuery(sql);
             int i = 0;
             while (z.rs.next()) {            
@@ -338,6 +240,121 @@ public class FrmInnovacion extends javax.swing.JFrame {
         
         return datos;
     }
+    
+    
+    private void cargaEvaluacion(String criterio, int filas, int columnas){
+        String[][] arreglo = new String[filas][columnas];
+         try {
+            
+        //cargamos el arreglo    
+            String sql = "SELECT * FROM var_pra_fact where factores like '"+criterio+"' and practicas = "+txtId.getText();
+            System.out.print(sql);
+            z.snt = z.con.createStatement();
+            z.rs = z.snt.executeQuery(sql);
+            z.rs.next();
+            System.out.println();
+            for (int i = 0; i < filas; i++) {
+                for (int j = 0; j < columnas; j++) {
+                    arreglo[i][j] = z.rs.getString(j+1);
+                    System.out.print(arreglo[i][j]+" - " );
+                }
+                z.rs.next();
+                System.out.println(" * ");
+            }
+             
+             for (int i = 0; i < filas; i++) {
+                 for (int j = 0; j < columnas; j++) {
+                     
+                 
+                switch (Integer.parseInt(arreglo[i][0])){
+                    case 1: 
+                        txtNovedadCreatividad.setText(arreglo[i][2]);
+                        cboNovedad.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdNovedadSi.setSelected(true);
+                            rdNovedadNo.setSelected(false);
+                        }else{
+                            rdNovedadSi.setSelected(false);
+                            rdNovedadNo.setSelected(true);
+                        }
+                    break;
+                    case 2: 
+                        txtPromocion.setText(arreglo[i][2]);
+                        cboPromocion.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdPromocionSI.setSelected(true);
+                            rdPromocionNO.setSelected(false);
+                        }else{
+                            rdPromocionSI.setSelected(false);
+                            rdPromocionNO.setSelected(true);
+                        }
+                    break;
+                    case 3: 
+                        txtNormalizacion.setText(arreglo[i][2]);
+                        cboNorma.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdNormaSi.setSelected(true);
+                            rdNormaNo.setSelected(false);
+                        }else{
+                            rdNormaSi.setSelected(false);
+                            rdNormaNo.setSelected(true);
+                        }
+                    break;
+                    case 4: 
+                        txtPertinenciaMeto.setText(arreglo[i][2]);
+                        cboPer4.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdPerMetoSi.setSelected(true);
+                            rdPerMetoNo.setSelected(false);
+                        }else{
+                            rdPerMetoSi.setSelected(false);
+                            rdPerMetoNo.setSelected(true);
+                        }
+                    break;    
+                    case 5: 
+                        txtPertinenciaVgen.setText(arreglo[i][2]);
+                        cboPer5.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdPerValGenSi.setSelected(true);
+                            rdPerValGenNO.setSelected(false);
+                        }else{
+                            rdPerValGenSi.setSelected(false);
+                            rdPerValGenNO.setSelected(true);
+                        }
+                    break;
+                    case 6: 
+                        txtPertienciaTrans.setText(arreglo[i][2]);
+                        cboPer6.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdPerTransSi.setSelected(true);
+                            rdPerTransNO.setSelected(false);
+                        }else{
+                            rdPerTransSi.setSelected(false);
+                            rdPerTransNO.setSelected(true);
+                        }
+                    break; 
+                }
+                 
+                }
+             }
+             
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    private void evaluacionHecha(String factor){
+        try {
+            String sql = "UPDATE practicas SET "+factor+" = 1 WHERE id="+txtId.getText().toString();
+            z.snt = z.con.createStatement();
+            z.snt.execute(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmReplicabilidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+     }
+    
     
     /**
      * 
@@ -875,7 +892,7 @@ public class FrmInnovacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void rdNovedadNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdNovedadNoActionPerformed
-        setObsNovedadCreatividad("observacion Novedad");
+       
     }//GEN-LAST:event_rdNovedadNoActionPerformed
 
     private void rdPromocionNOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdPromocionNOActionPerformed
@@ -895,28 +912,14 @@ public class FrmInnovacion extends javax.swing.JFrame {
     }//GEN-LAST:event_rdPerTransNOActionPerformed
 
     private void rdNovedadSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdNovedadSiActionPerformed
-        setObsNovedadCreatividad("");
+        
     }//GEN-LAST:event_rdNovedadSiActionPerformed
 
     private void btNGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNGuardarActionPerformed
-       imprimirarray();
-       if(pregutarEvaluacion("Innovación") == 0){
-            abm(1);
-       }else{
-           int dia = JOptionPane.showConfirmDialog(null, "Esta práctica ya fue evaludad desea modificarla con nueva información", "confirmación", WIDTH);
-           if(dia == JOptionPane.YES_OPTION){
-                try {
-                    String sql = "SELECT count(*) as cant FROM vvarcriterios where factores like '"+txtCriterio.getText().toString()+
-                            "' and practicas = "+txtId.getText();
-                    z.snt = z.con.createStatement();
-                    z.rs = z.snt.executeQuery(sql);
-                    z.rs.next();
-                    cargaEvaluacion(txtCriterio.getText().toString(), Integer.parseInt(z.rs.getString("cant")), 7);
-                } catch (SQLException ex) {
-                    Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
-                }
-           }
-       }
+       abm(getImb());
+            evaluacionHecha("innovacion");
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente");
+            this.dispose();
     }//GEN-LAST:event_btNGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -931,13 +934,6 @@ public class FrmInnovacion extends javax.swing.JFrame {
     private void rdNormaNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdNormaNoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rdNormaNoActionPerformed
-
-    private void imprimirarray(){
-        for (int i = 0; i < this.observacion.length; i++) {
-           System.out.println(cargaVariable("innovacion")[i]); 
-        }
-    }
-    
     
     /**
      * @param args the command line arguments

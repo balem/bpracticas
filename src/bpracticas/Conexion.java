@@ -1,6 +1,5 @@
 package bpracticas;
-
-import com.mysql.jdbc.PreparedStatement;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,28 +13,44 @@ public class Conexion {
     Connection con;
     Statement snt;
     ResultSet rs;
-
-    static String server = "192.168.1.48";
-    static String usr = "bpractica";
-    static String pass = "infinito";
-    static String db = "bpracticas";
-    String url = "jdbc:mysql://"+server+"/"+db;
+    File f = new File( "C:\\conexion.txt" );
+    BufferedReader entrada;
+    static String server = "";
+    static String usr = "";
+    static String pass = "";
+    static String db = "";
+    
     
     
     Conexion(){
         try {
+            String[] linea = new String[4];
+            entrada = new BufferedReader( new FileReader( f ) );
+            int i =0;
+            while(entrada.ready()){
+                linea[i] = entrada.readLine();
+                i++;
+            }
+            server = linea[0];
+            usr = linea[1];
+            pass = linea[2];
+            db = linea[3];
+            String url = "jdbc:mysql://"+server+"/"+db;
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             con = DriverManager.getConnection(url,usr, pass);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (IOException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }       
     }
+    
     public String dateFormat(Date ddate){
             java.text.SimpleDateFormat dia = new java.text.SimpleDateFormat("yyyy-MM-dd");
             String Fecha = dia.format(ddate);

@@ -5,6 +5,7 @@
 package bpracticas;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -22,6 +23,17 @@ public class FrmParticipacion extends javax.swing.JFrame {
     Conexion z = new Conexion();
     private String[] observacion = new String[13];
 
+    private ArrayList<JComboBox> combos = new ArrayList<JComboBox>();
+    private int imb =1;
+    
+    public int getImb() {
+        return imb;
+    }
+
+    public void setImb(int imb) {
+        this.imb = imb;
+    }
+    
     public String[] getObservacion() {
         return observacion;
     }
@@ -40,16 +52,38 @@ public class FrmParticipacion extends javax.swing.JFrame {
             selecDefecto(true);
         }
         
+        if(pregutarEvaluacion("participacion") != 0){
+           cargaEvaluacion(txtCriterio.getText().toString(), 13, 7);
+           setImb(2);
+        }
+        
         recoCombo(listarRecomendaciones(), cboInteres);
         recoCombo(listarRecomendaciones(), cboSatisfaccion);
-        recoCombo(listarRecomendaciones(), cboEstrPart);
+        recoCombo(listarRecomendaciones(), cboDemanda);
         recoCombo(listarRecomendaciones(), cboIdentificacion);
         recoCombo(listarRecomendaciones(), cboParticipantes);
         recoCombo(listarRecomendaciones(), cboAdecuancion);
+        recoCombo(listarRecomendaciones(), cboAdeParticipantes);
         recoCombo(listarRecomendaciones(), cboOrganizacion);
+        recoCombo(listarRecomendaciones(), cboOtras);
         recoCombo(listarRecomendaciones(), cboDiversidad);
         recoCombo(listarRecomendaciones(), cboCoordinaciones);
         recoCombo(listarRecomendaciones(), cboPartActiva);
+        recoCombo(listarRecomendaciones(), cboEstrPart);
+        
+        combos.add(cboInteres);
+        combos.add(cboSatisfaccion);
+        combos.add(cboDemanda);
+        combos.add(cboIdentificacion);
+        combos.add(cboParticipantes);
+        combos.add(cboAdecuancion);
+        combos.add(cboAdeParticipantes);
+        combos.add(cboOrganizacion);
+        combos.add(cboOtras);
+        combos.add(cboDiversidad);
+        combos.add(cboCoordinaciones);
+        combos.add(cboPartActiva);
+        combos.add(cboEstrPart);
 
     }
 
@@ -148,175 +182,116 @@ public class FrmParticipacion extends javax.swing.JFrame {
     }
     
     private void abm(int accion){
-        
-        int interes =0;
-        int satis = 0;
-        int demand =0;
-        int ident =0;
-        int participantes =0;
-        int adecuaN =0;
-        int adecuaP = 0;
-        int orgs = 0;
-        int otras =0;
-        int div = 0;       
-        int coordinacion = 0;
-        int parActiva =0;
-        int esPar =0;
+        int[] selecciono = new int[13];
+        String[] texto = new String[13];
         
         if(rdInteresSi.isSelected() && !rdInteresNo.isSelected()){
-            interes = 1;
+            selecciono[0] = 1;
+        }else{
+            selecciono[0] = 0;
         }
         
         if(rdSatisfaccionSi.isSelected() && !rdSatisfaccionNo.isSelected()){
-            satis = 1;
+            selecciono[1] = 1;
+        }else{
+            selecciono[1] = 0;
         }
         
         if(rdDemandaSi.isSelected() && !rdDemandaNo.isSelected()){
-            demand = 1;
+            selecciono[2] = 1;
+        }else{
+            selecciono[2] = 0;
         }
         
         if(rdIdentificacionSi.isSelected() && !rdIdentificacionNo.isSelected()){
-            ident = 1;
+            selecciono[3] = 1;
+        }else{
+            selecciono[3] = 0;
         }
         
         if(rdParticipantesSi.isSelected() && !rdParticipantesNo.isSelected()){
-            participantes = 1;
+            selecciono[4] = 1;
+        }else{
+            selecciono[4] = 0;
         }
        
         if(rdAdecuancionSi.isSelected() && !rdAdecuancionNo.isSelected()){
-            adecuaN = 1;
+            selecciono[5] = 1;
+        }else{
+            selecciono[5] = 0;
         }
         
         if(AdeParticipantesSi.isSelected() && !rdAdeParticipantesNo.isSelected()){
-            adecuaP = 1;
+            selecciono[6] = 1;
+        }else{
+            selecciono[6] = 0;
         }
         
         if(rdOrganizacionSi.isSelected() && !rdOrganizacionNo.isSelected()){
-            orgs = 1;
-        }
-        
-        if(rdOrganizacionSi.isSelected() && !rdOrganizacionNo.isSelected()){
-            orgs = 1;
+            selecciono[7] = 1;
+        }else{
+            selecciono[7] = 0;
         }
         
         if(rdOtrasSi.isSelected() && !rdOtrasNo.isSelected()){
-            otras = 1;
+            selecciono[8] = 1;
+        }else{
+            selecciono[8] = 0;
         }
         
         
         if(rdDiversidadSi.isSelected() && !rdDiversidadNo.isSelected()){
-            div = 1;
-        }
-       
-        if(rdOtrasSi.isSelected() && !rdOtrasNo.isSelected()){
-            otras = 1;
+            selecciono[9] = 1;
+        }else{
+            selecciono[9] = 0;
         }
         
         if(rdCoordinacionesSi.isSelected() && !rdCoordinacionesNo.isSelected()){
-            coordinacion = 1;
+            selecciono[10] = 1;
+        }else{
+            selecciono[10] = 0;
         }
         
         if(rdPartActivaSi.isSelected() && !rdPartActivaNo.isSelected()){
-            parActiva = 1;
+            selecciono[11] = 1;
+        }else{
+            selecciono[11] = 0;
         }
         
         if(rdEstrPartSi.isSelected() && !rdEstrPartNo.isSelected()){
-            esPar = 1;
+            selecciono[12] = 1;
+        }else{
+            selecciono[12] = 0;
         }
         
+        texto[0] = txtInterez.getText().toString();
+        texto[1] = txtSatisfaccion.getText().toString();
+        texto[2] = txtDemanda.getText().toString();
+        texto[3] = txtIdentificacion.getText().toString();
+        texto[4] = txtParticipantes.getText().toString();
+        texto[5] = txtAdecuancion.getText().toString();
+        texto[6] = txtAdeParticipantes.getText().toString();
+        texto[7] = txtOrganizacion.getText().toString();
+        texto[8] = txtOtras.getText().toString();
+        texto[9] = txtDiversidad.getText().toString();
+        texto[10] = txtCoordinaciones.getText().toString();
+        texto[11] = txtPartActiva.getText().toString();
+        texto[12] = txtEstrPart.getText().toString();
+        
+        
+        
         try {
-            //insertar evaluacion 1
-            int bnreco = saberRecomendacion(cboInteres, 0);
-            String sql = "CALL revaluacion("+accion+", 33,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[0]+"',"+interes+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            
-            //eva 2
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 34,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[1]+"',"+satis+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //eva 3
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 35,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[2]+"',"+demand+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //eva 4
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 36,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[3]+"',"+ident+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //eva 5
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 37,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[4]+"',"+participantes+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //eva 6
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 38,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[5]+"',"+adecuaN+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //eva 7
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 39,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[6]+"',"+adecuaP+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //eva 8
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 40,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[7]+"',"+orgs+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-           
-            //eva 9
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 41,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[8]+"',"+otras+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //eva 10
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 42,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[9]+"',"+div+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //eva 11
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 43,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[10]+"',"+coordinacion+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //eva 12
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 44,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[11]+"',"+parActiva+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            //eva 13
-            bnreco = saberRecomendacion(cboInteres, 0);
-            sql = "CALL revaluacion("+accion+", 45,"+txtId.getText().toString()+",'"+txtInterez.getText().toString()+"', '"+cargaVariable("Prticipacion")[12]+"',"+esPar+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
+            int bnreco;
+            int aux = 33;
+            String sql;
+            for (int i = 0; i < selecciono.length; i++) {
+                bnreco = saberRecomendacion(combos.get(i), 0);
+                sql = "CALL revaluacion("+accion+", "+aux+","+txtId.getText().toString()+",'"+texto[i]+"', 'variable',"+selecciono[i]+", "+bnreco+");";
+                System.out.println(sql);
+                z.snt = z.con.createStatement();
+                z.snt.execute(sql);
+                aux++;
+            }
             
         } catch (SQLException ex) {
             Logger.getLogger(FrmParticipacion.class.getName()).log(Level.SEVERE, null, ex);
@@ -346,6 +321,200 @@ public class FrmParticipacion extends javax.swing.JFrame {
         
         return datos;
     }
+    
+    
+    private void cargaEvaluacion(String criterio, int filas, int columnas){
+        String[][] arreglo = new String[filas][columnas];
+         try {
+            
+        //cargamos el arreglo    
+            String sql = "SELECT * FROM var_pra_fact where factores like '"+criterio+"' and practicas = "+txtId.getText();
+            System.out.print(sql);
+            z.snt = z.con.createStatement();
+            z.rs = z.snt.executeQuery(sql);
+            z.rs.next();
+            System.out.println();
+            for (int i = 0; i < filas; i++) {
+                for (int j = 0; j < columnas; j++) {
+                    arreglo[i][j] = z.rs.getString(j+1);
+                    System.out.print(arreglo[i][j]+" - " );
+                }
+                z.rs.next();
+                System.out.println(" * ");
+            }
+             
+             for (int i = 0; i < filas; i++) {
+                 for (int j = 0; j < columnas; j++) {
+                     
+                 
+                switch (Integer.parseInt(arreglo[i][0])){
+                    case 33: 
+                        txtInterez.setText(arreglo[i][2]);
+                        cboInteres.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdInteresSi.setSelected(true);
+                            rdInteresNo.setSelected(false);
+                        }else{
+                            rdInteresSi.setSelected(false);
+                            rdInteresNo.setSelected(true);
+                        }
+                    break;
+                    case 34: 
+                        txtSatisfaccion.setText(arreglo[i][2]);
+                        cboSatisfaccion.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdSatisfaccionSi.setSelected(true);
+                            rdSatisfaccionNo.setSelected(false);
+                        }else{
+                            rdSatisfaccionSi.setSelected(false);
+                            rdSatisfaccionNo.setSelected(true);
+                        }
+                    break;
+                    case 35: 
+                        txtDemanda.setText(arreglo[i][2]);
+                        cboDemanda.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdDemandaSi.setSelected(true);
+                            rdDemandaNo.setSelected(false);
+                        }else{
+                            rdDemandaSi.setSelected(false);
+                            rdDemandaNo.setSelected(true);
+                        }
+                    break;
+                    case 36: 
+                        txtIdentificacion.setText(arreglo[i][2]);
+                        cboIdentificacion.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdIdentificacionSi.setSelected(true);
+                            rdIdentificacionNo.setSelected(false);
+                        }else{
+                            rdIdentificacionSi.setSelected(false);
+                            rdIdentificacionNo.setSelected(true);
+                        }
+                    break;    
+                    case 37: 
+                        txtParticipantes.setText(arreglo[i][2]);
+                        cboParticipantes.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdParticipantesSi.setSelected(true);
+                            rdParticipantesNo.setSelected(false);
+                        }else{
+                            rdParticipantesSi.setSelected(false);
+                            rdParticipantesNo.setSelected(true);
+                        }
+                    break;
+                    case 38: 
+                        txtAdecuancion.setText(arreglo[i][2]);
+                        cboAdecuancion.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdAdecuancionSi.setSelected(true);
+                            rdAdecuancionNo.setSelected(false);
+                        }else{
+                            rdAdecuancionSi.setSelected(false);
+                            rdAdecuancionNo.setSelected(true);
+                        }
+                    break; 
+                    case 39: 
+                        txtAdeParticipantes.setText(arreglo[i][2]);
+                        cboAdeParticipantes.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            AdeParticipantesSi.setSelected(true);
+                            rdAdeParticipantesNo.setSelected(false);
+                        }else{
+                            AdeParticipantesSi.setSelected(false);
+                            rdAdeParticipantesNo.setSelected(true);
+                        }
+                    break;
+                    case 40: 
+                        txtOrganizacion.setText(arreglo[i][2]);
+                        cboOrganizacion.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdOrganizacionSi.setSelected(true);
+                            rdOrganizacionNo.setSelected(false);
+                        }else{
+                            rdOrganizacionSi.setSelected(false);
+                            rdOrganizacionNo.setSelected(true);
+                        }
+                    break;
+                    case 41: 
+                        txtOtras.setText(arreglo[i][2]);
+                        cboOtras.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdOtrasSi.setSelected(true);
+                            rdOtrasNo.setSelected(false);
+                        }else{
+                            rdOtrasSi.setSelected(false);
+                            rdOtrasNo.setSelected(true);
+                        }
+                    break;
+                    case 42: 
+                        txtDiversidad.setText(arreglo[i][2]);
+                        cboDiversidad.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdDiversidadSi.setSelected(true);
+                            rdDiversidadNo.setSelected(false);
+                        }else{
+                            rdDiversidadSi.setSelected(false);
+                            rdDiversidadNo.setSelected(true);
+                        }
+                    break;
+                            
+                    case 43: 
+                        txtCoordinaciones.setText(arreglo[i][2]);
+                        cboCoordinaciones.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdCoordinacionesSi.setSelected(true);
+                            rdCoordinacionesNo.setSelected(false);
+                        }else{
+                            rdCoordinacionesSi.setSelected(false);
+                            rdCoordinacionesNo.setSelected(true);
+                        }
+                    break; 
+                                
+                    case 44: 
+                        txtPartActiva.setText(arreglo[i][2]);
+                        cboPartActiva.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdPartActivaSi.setSelected(true);
+                            rdPartActivaNo.setSelected(false);
+                        }else{
+                            rdPartActivaSi.setSelected(false);
+                            rdPartActivaNo.setSelected(true);
+                        }
+                    break; 
+                                    
+                   case 45: 
+                        txtEstrPart.setText(arreglo[i][2]);
+                        cboEstrPart.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdEstrPartSi.setSelected(true);
+                            rdEstrPartNo.setSelected(false);
+                        }else{
+                            rdEstrPartSi.setSelected(false);
+                            rdEstrPartNo.setSelected(true);
+                        }
+                    break; 
+                }
+                 
+                }
+             }
+             
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+     
+     private void evaluacionHecha(String factor){
+        try {
+            String sql = "UPDATE practicas SET "+factor+" = 1 WHERE id="+txtId.getText().toString();
+            z.snt = z.con.createStatement();
+            z.snt.execute(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmParticipacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+     }
+    
     
     /**
      * 
@@ -1225,15 +1394,10 @@ public class FrmParticipacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btNGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNGuardarActionPerformed
-       imprimirarray();
-       if(pregutarEvaluacion("Participacion") == 0){
-            abm(1);
-       }else{
-           int dia = JOptionPane.showConfirmDialog(null, "Confirmación", "Esta práctica ya fue evaluada, desea modificar la evaluación", WIDTH);
-           if(dia == JOptionPane.YES_OPTION){
-               
-           }
-       }
+            abm(getImb());
+            evaluacionHecha("participacion");
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente");
+            this.dispose();
     }//GEN-LAST:event_btNGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

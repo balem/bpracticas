@@ -5,6 +5,7 @@
 package bpracticas;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+
 /**
  *
  * @author Daniel San Nicolas
@@ -20,9 +22,17 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 public class FrmSostenibilidad extends javax.swing.JFrame {
     int respuesta = 0;
     Conexion z = new Conexion();
-    
-   
     private String[] observacion = new String[6];
+    private ArrayList<JComboBox> combos = new ArrayList<JComboBox>();
+    private int imb =1;
+
+    public int getImb() {
+        return imb;
+    }
+
+    public void setImb(int imb) {
+        this.imb = imb;
+    }
 
     public String[] getObservacion() {
         return observacion;
@@ -39,44 +49,78 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
             configPractica();
             selecDefecto(true);
         }
-        recoCombo(listarRecomendaciones(), cboEcoPresupuesto);
-        recoCombo(listarRecomendaciones(), cboEcoPresupuesto);
-        recoCombo(listarRecomendaciones(), txtNormaJustifica);
+        
+        if(pregutarEvaluacion("sostenibilidad") != 0){
+           cargaEvaluacion(txtCriterio.getText().toString(), 17, 7);
+           setImb(2);
+        }
+        
+        recoCombo(listarRecomendaciones(), cboEstructuraPrevia);
+        recoCombo(listarRecomendaciones(), cboEdiciones);
+        recoCombo(listarRecomendaciones(), cboAntecendentes);
+        recoCombo(listarRecomendaciones(), cboNormaJusticia);
+        recoCombo(listarRecomendaciones(), cboMarcoJuridiccional);
+        recoCombo(listarRecomendaciones(), cboEstrucDifinia);
+        recoCombo(listarRecomendaciones(), cboCoheInterna);
+        recoCombo(listarRecomendaciones(), cboExisteDisenoEva);
+        recoCombo(listarRecomendaciones(), cboSistemaSeguimiento);
+        recoCombo(listarRecomendaciones(), cboPresuAsignado);
+        recoCombo(listarRecomendaciones(), cboEcoRubro);
+        recoCombo(listarRecomendaciones(), cboDineroDisp);
+        recoCombo(listarRecomendaciones(), cboCosteActividad);
         recoCombo(listarRecomendaciones(), cboAumentPartici);
         recoCombo(listarRecomendaciones(), cboAdapContentGrupo);
         recoCombo(listarRecomendaciones(), cboAdecEspacio);
-        recoCombo(listarRecomendaciones(), txtNormaJustifica);
+        recoCombo(listarRecomendaciones(), cboAdaptMeto);
         
+        combos.add(cboEstructuraPrevia);
+        combos.add(cboEdiciones);
+        combos.add(cboAntecendentes);
+        combos.add(cboNormaJusticia);
+        combos.add(cboMarcoJuridiccional);
+        combos.add(cboEstrucDifinia);
+        combos.add(cboCoheInterna);
+        combos.add(cboExisteDisenoEva);
+        combos.add(cboSistemaSeguimiento);
+        combos.add(cboPresuAsignado);
+        combos.add(cboEcoRubro);
+        combos.add(cboDineroDisp);
+        combos.add(cboCosteActividad);
+        combos.add(cboAumentPartici);
+        combos.add(cboAdapContentGrupo);
+        combos.add(cboAdecEspacio);
+        combos.add(cboAdaptMeto);
     }
 
+    
+    
     private void selecDefecto(boolean si){
-        rdEcoPresuNO.setSelected(si);
-        rdbEstructuraNo.setSelected(si);
+        rdPresuAsignadoNo.setSelected(si);
+        rdEstructuraPreviaNo.setSelected(si);
         rdAumentParticiNo.setSelected(si);
         rdAdaptMetoNo.setSelected(si);
         rdAdapContentGrupoNo.setSelected(si);
-        rdNormaJusNO.setSelected(si);
+        rdNormaJusticiaNo.setSelected(si);
     }
     
     
-    /**
+     /**
      * @param Este metodo permite preguntar si una evaluación ha sido cargada para luego decidir sobre la acción de insertar o modificar
      * 
      */
     private int pregutarEvaluacion(String factor){
         try {
             
-            String sql = "select count(*) as cant from vvarcriterios where factores like '"+factor+"' and practicas = "+txtId.getText().toString();
+            String sql = "SELECT "+factor+" FROM practicas where id = "+txtId.getText().toString();
             z.snt = z.con.createStatement();
             z.rs = z.snt.executeQuery(sql);
             z.rs.next();
-            respuesta = Integer.parseInt(z.rs.getString("cant").toString());
+            respuesta = Integer.parseInt(z.rs.getString(factor).toString());
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return respuesta;
     }
-    
     
     private void configPractica(){
         
@@ -87,7 +131,7 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
             z.rs.next();
             txtPractica.setText(z.rs.getString("Titulo"));
         } catch (SQLException ex) {
-            Logger.getLogger(FrmSostenibilidad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmReplicabilidad.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -103,7 +147,7 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                 i++;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(FrmSostenibilidad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmReplicabilidad.class.getName()).log(Level.SEVERE, null, ex);
         }
         return this.observacion;
     }
@@ -138,90 +182,147 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
     }
     
     private void abm(int accion){
+        int[] selecciono = new int[17];
+        String[] texto = new String[17];
         
-        int novedad =0;
-        int promocion =0;
-        int norma = 0;
-        int meto =0;
-        int veng = 0;
-        int trans =0;
-        
-        if(rdEcoPresuSi.isSelected() && !rdEcoPresuNO.isSelected()){
-            norma = 1;
+        if(rdEstructuraPreviaSi.isSelected() && !rdEstructuraPreviaNo.isSelected()){
+            selecciono[0] = 1;
+        }else{
+            selecciono[0] = 0;
         }
         
-        if(rdbEstricutraSi.isSelected() && !rdbEstructuraNo.isSelected()){
-            novedad = 1;
+        if(rdEcoRubroSi.isSelected() && !rdEcoRubroNo.isSelected()){
+            selecciono[1] = 1;
+        }else{
+            selecciono[1] = 0;
         }
         
-        if(rdNormaJusSi.isSelected() && !rdNormaJusNO.isSelected()){
-            promocion = 1;
+        if(rdAntecedentesSi.isSelected() && !rdAntecedentesNo.isSelected()){
+            selecciono[2] = 1;
+        }else{
+            selecciono[2] = 0;
+        }
+        
+        if(rdNormaJusticiaSi.isSelected() && !rdNormaJusticiaNo.isSelected()){
+            selecciono[3] = 1;
+        }else{
+            selecciono[3] = 0;
+        }
+        
+        if(rdMarcoJuridiccionalSi.isSelected() && !rdMarcoJuridiccionalNo.isSelected()){
+            selecciono[4] = 1;
+        }else{
+            selecciono[4] = 0;
+        }
+        
+        if(rdEstrucDifiniaSi.isSelected() && !rdEstrucDifiniaNo.isSelected()){
+            selecciono[5] = 1;
+        }else{
+            selecciono[5] = 0;
+        }
+        
+        if(rdCoheInternaSi.isSelected() && !rdCoheInternaNo.isSelected()){
+            selecciono[6] = 1;
+        }else{
+            selecciono[6] = 0;
+        }
+        
+        if(rdExisteDisenoEvaSi.isSelected() && !rdExisteDisenoEvaNo.isSelected()){
+            selecciono[7] = 1;
+        }else{
+            selecciono[7] = 0;
+        }
+        
+        if(rdSistemaSeguimientoSi.isSelected() && !rdSistemaSeguimientoNo.isSelected()){
+            selecciono[8] = 1;
+        }else{
+            selecciono[8] = 0;
+        }
+        
+        if(rdPresuAsignadoSi.isSelected() && !rdPresuAsignadoNo.isSelected()){
+            selecciono[9] = 1;
+        }else{
+            selecciono[9] = 0;
+        }
+        
+        if(rdEcoRubroSi.isSelected() && !rdEcoRubroNo.isSelected()){
+            selecciono[10] = 1;
+        }else{
+            selecciono[10] = 0;
+        }
+        
+        if(rdDineroDispSi.isSelected() && !rdDineroDispNo.isSelected()){
+            selecciono[11] = 1;
+        }else{
+            selecciono[11] = 0;
+        }
+        
+        if(rdCosteActividadSi.isSelected() && !rdCosteActividadNo.isSelected()){
+            selecciono[12] = 1;
+        }else{
+            selecciono[12] = 0;
         }
         
         if(rdAumentParticiSi.isSelected() && !rdAumentParticiNo.isSelected()){
-            meto = 1;
+            selecciono[13] = 1;
+        }else{
+            selecciono[13] = 0;
         }
         
         if(rdAdapContentGrupoSi.isSelected() && !rdAdapContentGrupoNo.isSelected()){
-            veng = 1;
+            selecciono[14] = 1;
+        }else{
+            selecciono[14] = 0;
+        }
+        
+        if(rdAdecEspacioSi.isSelected() && !rdAdecEspacioNo.isSelected()){
+            selecciono[15] = 1;
+        }else{
+            selecciono[15] = 0;
         }
         
         if(rdAdaptMetoSi.isSelected() && !rdAdaptMetoNo.isSelected()){
-            trans = 1;
+            selecciono[16] = 1;
+        }else{
+            selecciono[16] = 0;
         }
         
+        texto[0] = txtEstructuraPrevia.getText().toString();
+        texto[1] = txtEdiciones.getText().toString();
+        texto[2] = txtAntecedentes.getText().toString();
+        texto[3] = txtNormaJusticia.getText().toString();
+        texto[4] = txtMarcoJuridiccional.getText().toString();
+        texto[5] = txtEstrucDifinia.getText().toString();
+        texto[6] = txtCoheInterna.getText().toString();
+        texto[7] = txtExisteDisenoEva.getText().toString();
+        texto[8] = txtSistemaSeguimiento.getText().toString();
+        texto[9] = txtPresuAsignado.getText().toString();
+        texto[10] = txtEcoRubro.getText().toString();
+        texto[11] = txtDineroDisp.getText().toString();
+        texto[12] = txtCosteActividad.getText().toString();
+        texto[13] = txtAumentPartici.getText().toString();
+        texto[14] = txtAdapContentGrupo.getText().toString();
+        texto[15] = txtAdecEspacio.getText().toString();
+        texto[16] = txtAdaptMeto.getText().toString();
+        
         try {
-            //insertar evaluacion 1
-            int bnreco = saberRecomendacion(cboAntecendentes, 0);
-            String sql = "CALL revaluacion("+accion+", 1,"+txtId.getText().toString()+",'"+txtEstructuraPrevia.getText().toString()+"', '"+cargaVariable("Innovacion")[0]+"',"+novedad+", "+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
+           
+            int bnreco;
+            int aux = 7;
+            String sql;
+            for (int i = 0; i < selecciono.length; i++) {
+                bnreco = saberRecomendacion(combos.get(i), 0);
+                sql = "CALL revaluacion("+accion+", "+aux+","+txtId.getText().toString()+",'"+texto[i]+"', 'variable',"+selecciono[i]+", "+bnreco+");";
+                System.out.println(sql);
+                z.snt = z.con.createStatement();
+                z.snt.execute(sql);
+                aux++;
+            }
             
-            
-            //insertar evaluacion 2
-            bnreco = saberRecomendacion(txtNormaJustifica, 0);
-            sql = "CALL revaluacion("+accion+", 2,"+txtId.getText().toString()+",'"+txtNormaJusticia.getText().toString()+"', '"+cargaVariable("Innovacion")[1]+"',"+promocion+","+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            
-            //insertar evaluación 3
-            bnreco = saberRecomendacion(cboEcoPresupuesto, 0);
-            sql = "CALL revaluacion("+accion+", 3,"+txtId.getText().toString()+",'"+txtPresuAsignado.getText().toString()+"', '"+cargaVariable("Innovacion")[2]+"',"+norma+","+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            
-            //insertar evaluacion 4
-            bnreco = saberRecomendacion(cboAumentPartici, 0);
-            sql = "CALL revaluacion("+accion+", 4,"+txtId.getText().toString()+",'"+txtAumentPartici.getText().toString()+"', '"+cargaVariable("Innovacion")[3]+"',"+meto+","+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-                
-            //insertar evaluacion 5
-            bnreco = saberRecomendacion(cboAdapContentGrupo, 0);
-            sql = "CALL revaluacion("+accion+", 5,"+txtId.getText().toString()+",'"+txtAdapContentGrupo.getText().toString()+"', '"+cargaVariable("Innovacion")[4]+"',"+veng+","+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
-            
-            
-            //insertar evaluación 6
-            bnreco = saberRecomendacion(cboAdecEspacio, 0);
-            sql = "CALL revaluacion("+accion+", 6,"+txtId.getText().toString()+",'"+txtAdecEspacio.getText().toString()+"', '"+cargaVariable("Innovacion")[5]+"',"+trans+","+bnreco+");";
-            System.out.println(sql);
-            z.snt = z.con.createStatement();
-            z.snt.execute(sql);
         } catch (SQLException ex) {
             Logger.getLogger(FrmSostenibilidad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     
     private String[] listarRecomendaciones(){
         String datos[] = null; 
@@ -231,7 +332,7 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
             z.rs = z.snt.executeQuery(sql);
             z.rs.next();
             datos = new String[z.rs.getInt("id")];
-            sql = "SELECT * FROM recomendaciones limit 10";
+            sql = "SELECT * FROM recomendaciones";
             z.rs = z.snt.executeQuery(sql);
             int i = 0;
             while (z.rs.next()) {            
@@ -245,6 +346,247 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
         
         return datos;
     }
+    
+    private void cargaEvaluacion(String criterio, int filas, int columnas){
+        String[][] arreglo = new String[filas][columnas];
+         try {
+            
+        //cargamos el arreglo    
+            String sql = "SELECT * FROM var_pra_fact where factores like '"+criterio+"' and practicas = "+txtId.getText();
+            System.out.print(sql);
+            z.snt = z.con.createStatement();
+            z.rs = z.snt.executeQuery(sql);
+            z.rs.next();
+            System.out.println();
+            for (int i = 0; i < filas; i++) {
+                for (int j = 0; j < columnas; j++) {
+                    arreglo[i][j] = z.rs.getString(j+1);
+                    System.out.print(arreglo[i][j]+" - " );
+                }
+                z.rs.next();
+                System.out.println(" * ");
+            }
+             
+             for (int i = 0; i < filas; i++) {
+                 for (int j = 0; j < columnas; j++) {
+                     
+                 
+                switch (Integer.parseInt(arreglo[i][0])){
+                    case 7: 
+                        txtEstructuraPrevia.setText(arreglo[i][2]);
+                        cboEcoRubro.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdEstructuraPreviaSi.setSelected(true);
+                            rdEstructuraPreviaNo.setSelected(false);
+                        }else{
+                            rdEstructuraPreviaSi.setSelected(false);
+                            rdEstructuraPreviaNo.setSelected(true);
+                        }
+                    break;
+                    case 8: 
+                        txtEdiciones.setText(arreglo[i][2]);
+                        cboEdiciones.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdEdicionesSi.setSelected(true);
+                            rdEdicionesNo.setSelected(false);
+                        }else{
+                            rdEdicionesSi.setSelected(false);
+                            rdEdicionesNo.setSelected(true);
+                        }
+                    break;
+                    case 9: 
+                        txtAntecedentes.setText(arreglo[i][2]);
+                        cboAntecendentes.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdAntecedentesSi.setSelected(true);
+                            rdAntecedentesNo.setSelected(false);
+                        }else{
+                            rdAntecedentesSi.setSelected(false);
+                            rdAntecedentesNo.setSelected(true);
+                        }
+                    break;
+                    case 10: 
+                        txtNormaJusticia.setText(arreglo[i][2]);
+                        cboNormaJusticia.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdNormaJusticiaSi.setSelected(true);
+                            rdNormaJusticiaNo.setSelected(false);
+                        }else{
+                            rdNormaJusticiaSi.setSelected(false);
+                            rdNormaJusticiaNo.setSelected(true);
+                        }
+                    break;    
+                    case 11: 
+                        txtMarcoJuridiccional.setText(arreglo[i][2]);
+                        cboMarcoJuridiccional.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdMarcoJuridiccionalSi.setSelected(true);
+                            rdMarcoJuridiccionalNo.setSelected(false);
+                        }else{
+                            rdMarcoJuridiccionalSi.setSelected(false);
+                            rdMarcoJuridiccionalNo.setSelected(true);
+                        }
+                    break;
+                    case 12: 
+                        txtEstrucDifinia.setText(arreglo[i][2]);
+                        cboEstrucDifinia.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdEstrucDifiniaSi.setSelected(true);
+                            rdEstrucDifiniaNo.setSelected(false);
+                        }else{
+                            rdEstrucDifiniaSi.setSelected(false);
+                            rdEstrucDifiniaNo.setSelected(true);
+                        }
+                    break; 
+                    case 13: 
+                        txtCoheInterna.setText(arreglo[i][2]);
+                        cboCoheInterna.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdCoheInternaSi.setSelected(true);
+                            rdCoheInternaNo.setSelected(false);
+                        }else{
+                            rdCoheInternaSi.setSelected(false);
+                            rdCoheInternaNo.setSelected(true);
+                        }
+                    break;
+                    case 14: 
+                        txtExisteDisenoEva.setText(arreglo[i][2]);
+                        cboExisteDisenoEva.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdExisteDisenoEvaSi.setSelected(true);
+                            rdExisteDisenoEvaNo.setSelected(false);
+                        }else{
+                            rdExisteDisenoEvaSi.setSelected(false);
+                            rdExisteDisenoEvaNo.setSelected(true);
+                        }
+                    break;
+                    case 15: 
+                        txtSistemaSeguimiento.setText(arreglo[i][2]);
+                        cboSistemaSeguimiento.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdSistemaSeguimientoSi.setSelected(true);
+                            rdSistemaSeguimientoNo.setSelected(false);
+                        }else{
+                            rdSistemaSeguimientoSi.setSelected(false);
+                            rdSistemaSeguimientoNo.setSelected(true);
+                        }
+                    break;
+                     case 16: 
+                        txtPresuAsignado.setText(arreglo[i][2]);
+                        cboPresuAsignado.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdPresuAsignadoSi.setSelected(true);
+                            rdPresuAsignadoNo.setSelected(false);
+                        }else{
+                            rdPresuAsignadoSi.setSelected(false);
+                            rdPresuAsignadoNo.setSelected(true);
+                        }
+                    break;     
+                    case 17: 
+                        txtEcoRubro.setText(arreglo[i][2]);
+                        cboEcoRubro.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdEcoRubroSi.setSelected(true);
+                            rdEcoRubroNo.setSelected(false);
+                        }else{
+                            rdEcoRubroSi.setSelected(false);
+                            rdEcoRubroNo.setSelected(true);
+                        }
+                    break;
+                    case 18: 
+                        txtDineroDisp.setText(arreglo[i][2]);
+                        cboDineroDisp.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdDineroDispSi.setSelected(true);
+                            rdDineroDispNo.setSelected(false);
+                        }else{
+                            rdDineroDispSi.setSelected(false);
+                            rdDineroDispNo.setSelected(true);
+                        }
+                    break;
+                    case 19: 
+                        txtCosteActividad.setText(arreglo[i][2]);
+                        cboCosteActividad.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdCosteActividadSi.setSelected(true);
+                            rdCosteActividadNo.setSelected(false);
+                        }else{
+                            rdCosteActividadSi.setSelected(false);
+                            rdCosteActividadNo.setSelected(true);
+                        }
+                    break;
+                    case 20: 
+                        txtAumentPartici.setText(arreglo[i][2]);
+                        cboAumentPartici.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdAumentParticiSi.setSelected(true);
+                            rdAumentParticiNo.setSelected(false);
+                        }else{
+                            rdAumentParticiSi.setSelected(false);
+                            rdAumentParticiNo.setSelected(true);
+                        }
+                    break;
+                    case 21: 
+                        txtAdapContentGrupo.setText(arreglo[i][2]);
+                        cboAdapContentGrupo.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdAdapContentGrupoSi.setSelected(true);
+                            rdAdapContentGrupoNo.setSelected(false);
+                        }else{
+                            rdAdapContentGrupoSi.setSelected(false);
+                            rdAdapContentGrupoNo.setSelected(true);
+                        }
+                    break;     
+                     
+                    case 22: 
+                        txtAdecEspacio.setText(arreglo[i][2]);
+                        cboAdecEspacio.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdAdecEspacioSi.setSelected(true);
+                            rdAdecEspacioNo.setSelected(false);
+                        }else{
+                            rdAdecEspacioSi.setSelected(false);
+                            rdAdecEspacioNo.setSelected(true);
+                        }
+                    break;     
+                    
+                    case 23: 
+                        txtAdaptMeto.setText(arreglo[i][2]);
+                        cboAdaptMeto.setSelectedItem(arreglo[i][5]);
+                        if(Integer.parseInt(arreglo[i][4]) == 1){
+                            rdAdaptMetoSi.setSelected(true);
+                            rdAdaptMetoNo.setSelected(false);
+                        }else{
+                            rdAdaptMetoSi.setSelected(false);
+                            rdAdaptMetoNo.setSelected(true);
+                        }
+                    break;    
+                }
+                
+                }
+             }
+             
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmInnovacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+   private void evaluacionHecha(String factor){
+        try {
+            String sql = "UPDATE practicas SET "+factor+" = 1 WHERE id="+txtId.getText().toString();
+            z.snt = z.con.createStatement();
+            z.snt.execute(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmReplicabilidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+     }
+    
+    
+    
+    
+    
     
     /**
      * 
@@ -302,8 +644,8 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
         pnlMantenimientoTiempo = new javax.swing.JPanel();
         txtEstructuraPrevia = new javax.swing.JTextField();
         lblSiete = new javax.swing.JLabel();
-        rdbEstricutraSi = new javax.swing.JRadioButton();
-        rdbEstructuraNo = new javax.swing.JRadioButton();
+        rdEstructuraPreviaSi = new javax.swing.JRadioButton();
+        rdEstructuraPreviaNo = new javax.swing.JRadioButton();
         lblIdNoveadd2 = new javax.swing.JLabel();
         cboEstructuraPrevia = new org.jdesktop.swingx.JXComboBox();
         txtEdiciones = new javax.swing.JTextField();
@@ -314,41 +656,41 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
         cboEdiciones = new org.jdesktop.swingx.JXComboBox();
         jLabel10 = new javax.swing.JLabel();
         txtAntecedentes = new javax.swing.JTextField();
-        rdNovedadSi2 = new javax.swing.JRadioButton();
-        rdNovedadNo2 = new javax.swing.JRadioButton();
+        rdAntecedentesSi = new javax.swing.JRadioButton();
+        rdAntecedentesNo = new javax.swing.JRadioButton();
         cboAntecendentes = new org.jdesktop.swingx.JXComboBox();
         lblIdNoveadd4 = new javax.swing.JLabel();
         pnlPromocion = new javax.swing.JPanel();
         txtNormaJusticia = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        rdNormaJusSi = new javax.swing.JRadioButton();
-        rdNormaJusNO = new javax.swing.JRadioButton();
+        rdNormaJusticiaSi = new javax.swing.JRadioButton();
+        rdNormaJusticiaNo = new javax.swing.JRadioButton();
         lblIdPromocion = new javax.swing.JLabel();
-        txtNormaJustifica = new org.jdesktop.swingx.JXComboBox();
-        rdMarcoJurNo = new javax.swing.JRadioButton();
-        rdMarcoJurSi = new javax.swing.JRadioButton();
+        cboNormaJusticia = new org.jdesktop.swingx.JXComboBox();
+        rdMarcoJuridiccionalNo = new javax.swing.JRadioButton();
+        rdMarcoJuridiccionalSi = new javax.swing.JRadioButton();
         jLabel11 = new javax.swing.JLabel();
         lblIdPromocion1 = new javax.swing.JLabel();
         txtMarcoJuridiccional = new javax.swing.JTextField();
         cboMarcoJuridiccional = new org.jdesktop.swingx.JXComboBox();
         jLabel12 = new javax.swing.JLabel();
-        cboPromocion2 = new org.jdesktop.swingx.JXComboBox();
+        cboEstrucDifinia = new org.jdesktop.swingx.JXComboBox();
         txtEstrucDifinia = new javax.swing.JTextField();
-        rdEstrucDefinNo = new javax.swing.JRadioButton();
+        rdEstrucDifiniaNo = new javax.swing.JRadioButton();
         lblIdPromocion2 = new javax.swing.JLabel();
-        rdEstrucDefinSi = new javax.swing.JRadioButton();
-        cboCoheInter = new org.jdesktop.swingx.JXComboBox();
+        rdEstrucDifiniaSi = new javax.swing.JRadioButton();
+        cboCoheInterna = new org.jdesktop.swingx.JXComboBox();
         jLabel13 = new javax.swing.JLabel();
         txtCoheInterna = new javax.swing.JTextField();
-        rdCoheSi = new javax.swing.JRadioButton();
-        rdCoheNO = new javax.swing.JRadioButton();
+        rdCoheInternaSi = new javax.swing.JRadioButton();
+        rdCoheInternaNo = new javax.swing.JRadioButton();
         lblIdPromocion3 = new javax.swing.JLabel();
         lblIdPromocion4 = new javax.swing.JLabel();
-        rdDisenoEvaluacionNO = new javax.swing.JRadioButton();
+        rdExisteDisenoEvaNo = new javax.swing.JRadioButton();
         jLabel14 = new javax.swing.JLabel();
-        rdDisenoEvaluacionSi = new javax.swing.JRadioButton();
-        txtDisenoEvaluacion = new javax.swing.JTextField();
-        cboDisenoEvaluacion = new org.jdesktop.swingx.JXComboBox();
+        rdExisteDisenoEvaSi = new javax.swing.JRadioButton();
+        txtExisteDisenoEva = new javax.swing.JTextField();
+        cboExisteDisenoEva = new org.jdesktop.swingx.JXComboBox();
         txtSistemaSeguimiento = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         lblIdPromocion5 = new javax.swing.JLabel();
@@ -358,10 +700,10 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
         pnlNormalizacion = new javax.swing.JPanel();
         txtPresuAsignado = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        rdEcoPresuSi = new javax.swing.JRadioButton();
-        rdEcoPresuNO = new javax.swing.JRadioButton();
+        rdPresuAsignadoSi = new javax.swing.JRadioButton();
+        rdPresuAsignadoNo = new javax.swing.JRadioButton();
         lblIdNormalizacion = new javax.swing.JLabel();
-        cboEcoPresupuesto = new org.jdesktop.swingx.JXComboBox();
+        cboPresuAsignado = new org.jdesktop.swingx.JXComboBox();
         jLabel17 = new javax.swing.JLabel();
         lblIdNormalizacion1 = new javax.swing.JLabel();
         rdEcoRubroSi = new javax.swing.JRadioButton();
@@ -509,19 +851,19 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
 
         lblSiete.setText("Inserto en estructura previa");
 
-        btGEstructura.add(rdbEstricutraSi);
-        rdbEstricutraSi.setText("Si");
-        rdbEstricutraSi.addActionListener(new java.awt.event.ActionListener() {
+        btGEstructura.add(rdEstructuraPreviaSi);
+        rdEstructuraPreviaSi.setText("Si");
+        rdEstructuraPreviaSi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdbEstricutraSiActionPerformed(evt);
+                rdEstructuraPreviaSiActionPerformed(evt);
             }
         });
 
-        btGEstructura.add(rdbEstructuraNo);
-        rdbEstructuraNo.setText("No");
-        rdbEstructuraNo.addActionListener(new java.awt.event.ActionListener() {
+        btGEstructura.add(rdEstructuraPreviaNo);
+        rdEstructuraPreviaNo.setText("No");
+        rdEstructuraPreviaNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdbEstructuraNoActionPerformed(evt);
+                rdEstructuraPreviaNoActionPerformed(evt);
             }
         });
 
@@ -553,19 +895,19 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
 
         jLabel10.setText("Antecedentes: prácticas anteriores precursoras de la actividad.");
 
-        groupAntecedentes.add(rdNovedadSi2);
-        rdNovedadSi2.setText("Si");
-        rdNovedadSi2.addActionListener(new java.awt.event.ActionListener() {
+        groupAntecedentes.add(rdAntecedentesSi);
+        rdAntecedentesSi.setText("Si");
+        rdAntecedentesSi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdNovedadSi2ActionPerformed(evt);
+                rdAntecedentesSiActionPerformed(evt);
             }
         });
 
-        groupAntecedentes.add(rdNovedadNo2);
-        rdNovedadNo2.setText("No");
-        rdNovedadNo2.addActionListener(new java.awt.event.ActionListener() {
+        groupAntecedentes.add(rdAntecedentesNo);
+        rdAntecedentesNo.setText("No");
+        rdAntecedentesNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdNovedadNo2ActionPerformed(evt);
+                rdAntecedentesNoActionPerformed(evt);
             }
         });
 
@@ -588,9 +930,9 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblSiete)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdbEstricutraSi)
+                        .addComponent(rdEstructuraPreviaSi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdbEstructuraNo))
+                        .addComponent(rdEstructuraPreviaNo))
                     .addGroup(pnlMantenimientoTiempoLayout.createSequentialGroup()
                         .addComponent(lblIdNoveadd4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -603,9 +945,9 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                     .addGroup(pnlMantenimientoTiempoLayout.createSequentialGroup()
                         .addComponent(txtAntecedentes, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(rdNovedadSi2)
+                        .addComponent(rdAntecedentesSi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdNovedadNo2))
+                        .addComponent(rdAntecedentesNo))
                     .addComponent(cboEdiciones, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlMantenimientoTiempoLayout.createSequentialGroup()
                         .addComponent(txtEdiciones, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -624,8 +966,8 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(pnlMantenimientoTiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEstructuraPrevia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdbEstricutraSi)
-                    .addComponent(rdbEstructuraNo))
+                    .addComponent(rdEstructuraPreviaSi)
+                    .addComponent(rdEstructuraPreviaNo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cboEstructuraPrevia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -646,8 +988,8 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlMantenimientoTiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtAntecedentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdNovedadSi2)
-                    .addComponent(rdNovedadNo2))
+                    .addComponent(rdAntecedentesSi)
+                    .addComponent(rdAntecedentesNo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cboAntecendentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -656,33 +998,33 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
 
         jLabel5.setText("Existe norma que la justifica.");
 
-        groupNormaJus.add(rdNormaJusSi);
-        rdNormaJusSi.setText("Si");
+        groupNormaJus.add(rdNormaJusticiaSi);
+        rdNormaJusticiaSi.setText("Si");
 
-        rdNormaJusNO.setText("No");
-        rdNormaJusNO.addActionListener(new java.awt.event.ActionListener() {
+        rdNormaJusticiaNo.setText("No");
+        rdNormaJusticiaNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdNormaJusNOActionPerformed(evt);
+                rdNormaJusticiaNoActionPerformed(evt);
             }
         });
 
         lblIdPromocion.setText("10");
 
-        txtNormaJustifica.setEditable(true);
+        cboNormaJusticia.setEditable(true);
 
-        groupMarcoJuris.add(rdMarcoJurNo);
-        rdMarcoJurNo.setText("No");
-        rdMarcoJurNo.addActionListener(new java.awt.event.ActionListener() {
+        groupMarcoJuris.add(rdMarcoJuridiccionalNo);
+        rdMarcoJuridiccionalNo.setText("No");
+        rdMarcoJuridiccionalNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdMarcoJurNoActionPerformed(evt);
+                rdMarcoJuridiccionalNoActionPerformed(evt);
             }
         });
 
-        groupMarcoJuris.add(rdMarcoJurSi);
-        rdMarcoJurSi.setText("Si");
-        rdMarcoJurSi.addActionListener(new java.awt.event.ActionListener() {
+        groupMarcoJuris.add(rdMarcoJuridiccionalSi);
+        rdMarcoJuridiccionalSi.setText("Si");
+        rdMarcoJuridiccionalSi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdMarcoJurSiActionPerformed(evt);
+                rdMarcoJuridiccionalSiActionPerformed(evt);
             }
         });
 
@@ -694,33 +1036,33 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
 
         jLabel12.setText("Tiene una estructura definida.");
 
-        cboPromocion2.setEditable(true);
+        cboEstrucDifinia.setEditable(true);
 
-        grupEstruDefin.add(rdEstrucDefinNo);
-        rdEstrucDefinNo.setText("No");
-        rdEstrucDefinNo.addActionListener(new java.awt.event.ActionListener() {
+        grupEstruDefin.add(rdEstrucDifiniaNo);
+        rdEstrucDifiniaNo.setText("No");
+        rdEstrucDifiniaNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdEstrucDefinNoActionPerformed(evt);
+                rdEstrucDifiniaNoActionPerformed(evt);
             }
         });
 
         lblIdPromocion2.setText("12");
 
-        grupEstruDefin.add(rdEstrucDefinSi);
-        rdEstrucDefinSi.setText("Si");
+        grupEstruDefin.add(rdEstrucDifiniaSi);
+        rdEstrucDifiniaSi.setText("Si");
 
-        cboCoheInter.setEditable(true);
+        cboCoheInterna.setEditable(true);
 
         jLabel13.setText("Coherencia interna.");
 
-        groupCoheInt.add(rdCoheSi);
-        rdCoheSi.setText("Si");
+        groupCoheInt.add(rdCoheInternaSi);
+        rdCoheInternaSi.setText("Si");
 
-        groupCoheInt.add(rdCoheNO);
-        rdCoheNO.setText("No");
-        rdCoheNO.addActionListener(new java.awt.event.ActionListener() {
+        groupCoheInt.add(rdCoheInternaNo);
+        rdCoheInternaNo.setText("No");
+        rdCoheInternaNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdCoheNOActionPerformed(evt);
+                rdCoheInternaNoActionPerformed(evt);
             }
         });
 
@@ -728,20 +1070,20 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
 
         lblIdPromocion4.setText("14");
 
-        groupDisenoEvaluacion.add(rdDisenoEvaluacionNO);
-        rdDisenoEvaluacionNO.setText("No");
-        rdDisenoEvaluacionNO.addActionListener(new java.awt.event.ActionListener() {
+        groupDisenoEvaluacion.add(rdExisteDisenoEvaNo);
+        rdExisteDisenoEvaNo.setText("No");
+        rdExisteDisenoEvaNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdDisenoEvaluacionNOActionPerformed(evt);
+                rdExisteDisenoEvaNoActionPerformed(evt);
             }
         });
 
         jLabel14.setText("Existe un diseño de evaluación");
 
-        groupDisenoEvaluacion.add(rdDisenoEvaluacionSi);
-        rdDisenoEvaluacionSi.setText("Si");
+        groupDisenoEvaluacion.add(rdExisteDisenoEvaSi);
+        rdExisteDisenoEvaSi.setText("Si");
 
-        cboDisenoEvaluacion.setEditable(true);
+        cboExisteDisenoEva.setEditable(true);
 
         jLabel15.setText("Existe un sistema de seguimiento de acuerdos, decisiones");
 
@@ -769,15 +1111,15 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                     .addGroup(pnlPromocionLayout.createSequentialGroup()
                         .addComponent(txtNormaJusticia, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
-                        .addComponent(rdNormaJusSi)
+                        .addComponent(rdNormaJusticiaSi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdNormaJusNO))
+                        .addComponent(rdNormaJusticiaNo))
                     .addGroup(pnlPromocionLayout.createSequentialGroup()
                         .addComponent(txtMarcoJuridiccional, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
-                        .addComponent(rdMarcoJurSi)
+                        .addComponent(rdMarcoJuridiccionalSi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdMarcoJurNo))
+                        .addComponent(rdMarcoJuridiccionalNo))
                     .addGroup(pnlPromocionLayout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addGroup(pnlPromocionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -808,32 +1150,32 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                     .addGroup(pnlPromocionLayout.createSequentialGroup()
                         .addComponent(txtEstrucDifinia, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
-                        .addComponent(rdEstrucDefinSi)
+                        .addComponent(rdEstrucDifiniaSi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdEstrucDefinNo))
+                        .addComponent(rdEstrucDifiniaNo))
                     .addGroup(pnlPromocionLayout.createSequentialGroup()
                         .addComponent(txtCoheInterna, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
-                        .addComponent(rdCoheSi)
+                        .addComponent(rdCoheInternaSi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdCoheNO))
+                        .addComponent(rdCoheInternaNo))
                     .addGroup(pnlPromocionLayout.createSequentialGroup()
-                        .addComponent(txtDisenoEvaluacion, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtExisteDisenoEva, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
-                        .addComponent(rdDisenoEvaluacionSi)
+                        .addComponent(rdExisteDisenoEvaSi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdDisenoEvaluacionNO))
+                        .addComponent(rdExisteDisenoEvaNo))
                     .addGroup(pnlPromocionLayout.createSequentialGroup()
                         .addComponent(txtSistemaSeguimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
                         .addComponent(rdSistemaSeguimientoSi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rdSistemaSeguimientoNo))
-                    .addComponent(txtNormaJustifica, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboNormaJusticia, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboMarcoJuridiccional, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboPromocion2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboCoheInter, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboDisenoEvaluacion, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboEstrucDifinia, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboCoheInterna, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboExisteDisenoEva, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboSistemaSeguimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
@@ -847,10 +1189,10 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPromocionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNormaJusticia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdNormaJusSi)
-                    .addComponent(rdNormaJusNO))
+                    .addComponent(rdNormaJusticiaSi)
+                    .addComponent(rdNormaJusticiaNo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNormaJustifica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cboNormaJusticia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnlPromocionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIdPromocion1)
@@ -858,8 +1200,8 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPromocionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMarcoJuridiccional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdMarcoJurSi)
-                    .addComponent(rdMarcoJurNo))
+                    .addComponent(rdMarcoJuridiccionalSi)
+                    .addComponent(rdMarcoJuridiccionalNo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cboMarcoJuridiccional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -869,10 +1211,10 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPromocionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEstrucDifinia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdEstrucDefinSi)
-                    .addComponent(rdEstrucDefinNo))
+                    .addComponent(rdEstrucDifiniaSi)
+                    .addComponent(rdEstrucDifiniaNo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cboPromocion2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cboEstrucDifinia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnlPromocionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIdPromocion3)
@@ -880,21 +1222,21 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPromocionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCoheInterna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdCoheSi)
-                    .addComponent(rdCoheNO))
+                    .addComponent(rdCoheInternaSi)
+                    .addComponent(rdCoheInternaNo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cboCoheInter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cboCoheInterna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnlPromocionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIdPromocion4)
                     .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPromocionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDisenoEvaluacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdDisenoEvaluacionSi)
-                    .addComponent(rdDisenoEvaluacionNO))
+                    .addComponent(txtExisteDisenoEva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rdExisteDisenoEvaSi)
+                    .addComponent(rdExisteDisenoEvaNo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cboDisenoEvaluacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cboExisteDisenoEva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnlPromocionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIdPromocion5)
@@ -913,20 +1255,20 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
 
         jLabel6.setText("Presupuesto asignado");
 
-        groupEcoPresu.add(rdEcoPresuSi);
-        rdEcoPresuSi.setText("Si");
+        groupEcoPresu.add(rdPresuAsignadoSi);
+        rdPresuAsignadoSi.setText("Si");
 
-        groupEcoPresu.add(rdEcoPresuNO);
-        rdEcoPresuNO.setText("No");
-        rdEcoPresuNO.addActionListener(new java.awt.event.ActionListener() {
+        groupEcoPresu.add(rdPresuAsignadoNo);
+        rdPresuAsignadoNo.setText("No");
+        rdPresuAsignadoNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdEcoPresuNOActionPerformed(evt);
+                rdPresuAsignadoNoActionPerformed(evt);
             }
         });
 
         lblIdNormalizacion.setText("16");
 
-        cboEcoPresupuesto.setEditable(true);
+        cboPresuAsignado.setEditable(true);
 
         jLabel17.setText("creación o liberación de rubros.");
 
@@ -994,12 +1336,12 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtPresuAsignado, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdEcoPresuSi)
+                        .addComponent(rdPresuAsignadoSi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdEcoPresuNO))
+                        .addComponent(rdPresuAsignadoNo))
                     .addGroup(pnlNormalizacionLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(cboEcoPresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cboPresuAsignado, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlNormalizacionLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(cboEcoRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1057,10 +1399,10 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlNormalizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPresuAsignado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdEcoPresuSi)
-                    .addComponent(rdEcoPresuNO))
+                    .addComponent(rdPresuAsignadoSi)
+                    .addComponent(rdPresuAsignadoNo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboEcoPresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cboPresuAsignado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlNormalizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
@@ -1298,7 +1640,7 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
                 .addComponent(pnlNormalizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlPertinencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -1339,15 +1681,10 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btNGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNGuardarActionPerformed
-       imprimirarray();
-       if(pregutarEvaluacion("Innovación") == 0){
-            abm(1);
-       }else{
-           int dia = JOptionPane.showConfirmDialog(null, "Confirmación", "Esta práctica ya fue evaluada, desea modificar la evaluación", WIDTH);
-           if(dia == JOptionPane.YES_OPTION){
-               
-           }
-       }
+       abm(getImb());
+            evaluacionHecha("sostenibilidad");
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente");
+            this.dispose();
     }//GEN-LAST:event_btNGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -1363,33 +1700,33 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rdSistemaSeguimientoNoActionPerformed
 
-    private void rdDisenoEvaluacionNOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdDisenoEvaluacionNOActionPerformed
+    private void rdExisteDisenoEvaNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdExisteDisenoEvaNoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdDisenoEvaluacionNOActionPerformed
+    }//GEN-LAST:event_rdExisteDisenoEvaNoActionPerformed
 
-    private void rdCoheNOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdCoheNOActionPerformed
+    private void rdCoheInternaNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdCoheInternaNoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdCoheNOActionPerformed
+    }//GEN-LAST:event_rdCoheInternaNoActionPerformed
 
-    private void rdEstrucDefinNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdEstrucDefinNoActionPerformed
+    private void rdEstrucDifiniaNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdEstrucDifiniaNoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdEstrucDefinNoActionPerformed
+    }//GEN-LAST:event_rdEstrucDifiniaNoActionPerformed
 
-    private void rdMarcoJurNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdMarcoJurNoActionPerformed
+    private void rdMarcoJuridiccionalNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdMarcoJuridiccionalNoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdMarcoJurNoActionPerformed
+    }//GEN-LAST:event_rdMarcoJuridiccionalNoActionPerformed
 
-    private void rdNormaJusNOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdNormaJusNOActionPerformed
+    private void rdNormaJusticiaNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdNormaJusticiaNoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdNormaJusNOActionPerformed
+    }//GEN-LAST:event_rdNormaJusticiaNoActionPerformed
 
-    private void rdNovedadNo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdNovedadNo2ActionPerformed
+    private void rdAntecedentesNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdAntecedentesNoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdNovedadNo2ActionPerformed
+    }//GEN-LAST:event_rdAntecedentesNoActionPerformed
 
-    private void rdNovedadSi2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdNovedadSi2ActionPerformed
+    private void rdAntecedentesSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdAntecedentesSiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdNovedadSi2ActionPerformed
+    }//GEN-LAST:event_rdAntecedentesSiActionPerformed
 
     private void rdEdicionesNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdEdicionesNoActionPerformed
         // TODO add your handling code here:
@@ -1399,17 +1736,17 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rdEdicionesSiActionPerformed
 
-    private void rdbEstructuraNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbEstructuraNoActionPerformed
+    private void rdEstructuraPreviaNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdEstructuraPreviaNoActionPerformed
         
-    }//GEN-LAST:event_rdbEstructuraNoActionPerformed
+    }//GEN-LAST:event_rdEstructuraPreviaNoActionPerformed
 
-    private void rdbEstricutraSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbEstricutraSiActionPerformed
+    private void rdEstructuraPreviaSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdEstructuraPreviaSiActionPerformed
         
-    }//GEN-LAST:event_rdbEstricutraSiActionPerformed
+    }//GEN-LAST:event_rdEstructuraPreviaSiActionPerformed
 
-    private void rdEcoPresuNOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdEcoPresuNOActionPerformed
+    private void rdPresuAsignadoNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdPresuAsignadoNoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdEcoPresuNOActionPerformed
+    }//GEN-LAST:event_rdPresuAsignadoNoActionPerformed
 
     private void rdAdaptMetoNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdAdaptMetoNoActionPerformed
         // TODO add your handling code here:
@@ -1439,9 +1776,9 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rdAdecEspacioNoActionPerformed
 
-    private void rdMarcoJurSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdMarcoJurSiActionPerformed
+    private void rdMarcoJuridiccionalSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdMarcoJuridiccionalSiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdMarcoJurSiActionPerformed
+    }//GEN-LAST:event_rdMarcoJuridiccionalSiActionPerformed
 
     private void imprimirarray(){
         for (int i = 0; i < this.observacion.length; i++) {
@@ -1503,16 +1840,17 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXComboBox cboAdecEspacio;
     private org.jdesktop.swingx.JXComboBox cboAntecendentes;
     private org.jdesktop.swingx.JXComboBox cboAumentPartici;
-    private org.jdesktop.swingx.JXComboBox cboCoheInter;
+    private org.jdesktop.swingx.JXComboBox cboCoheInterna;
     private org.jdesktop.swingx.JXComboBox cboCosteActividad;
     private org.jdesktop.swingx.JXComboBox cboDineroDisp;
-    private org.jdesktop.swingx.JXComboBox cboDisenoEvaluacion;
-    private org.jdesktop.swingx.JXComboBox cboEcoPresupuesto;
     private org.jdesktop.swingx.JXComboBox cboEcoRubro;
     private org.jdesktop.swingx.JXComboBox cboEdiciones;
+    private org.jdesktop.swingx.JXComboBox cboEstrucDifinia;
     private org.jdesktop.swingx.JXComboBox cboEstructuraPrevia;
+    private org.jdesktop.swingx.JXComboBox cboExisteDisenoEva;
     private org.jdesktop.swingx.JXComboBox cboMarcoJuridiccional;
-    private org.jdesktop.swingx.JXComboBox cboPromocion2;
+    private org.jdesktop.swingx.JXComboBox cboNormaJusticia;
+    private org.jdesktop.swingx.JXComboBox cboPresuAsignado;
     private org.jdesktop.swingx.JXComboBox cboSistemaSeguimiento;
     private javax.swing.ButtonGroup groupAdapContentGrupo;
     private javax.swing.ButtonGroup groupAdaptMeto;
@@ -1580,34 +1918,34 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdAdaptMetoSi;
     private javax.swing.JRadioButton rdAdecEspacioNo;
     private javax.swing.JRadioButton rdAdecEspacioSi;
+    private javax.swing.JRadioButton rdAntecedentesNo;
+    private javax.swing.JRadioButton rdAntecedentesSi;
     private javax.swing.JRadioButton rdAumentParticiNo;
     private javax.swing.JRadioButton rdAumentParticiSi;
-    private javax.swing.JRadioButton rdCoheNO;
-    private javax.swing.JRadioButton rdCoheSi;
+    private javax.swing.JRadioButton rdCoheInternaNo;
+    private javax.swing.JRadioButton rdCoheInternaSi;
     private javax.swing.JRadioButton rdCosteActividadNo;
     private javax.swing.JRadioButton rdCosteActividadSi;
     private javax.swing.JRadioButton rdDineroDispNo;
     private javax.swing.JRadioButton rdDineroDispSi;
-    private javax.swing.JRadioButton rdDisenoEvaluacionNO;
-    private javax.swing.JRadioButton rdDisenoEvaluacionSi;
-    private javax.swing.JRadioButton rdEcoPresuNO;
-    private javax.swing.JRadioButton rdEcoPresuSi;
     private javax.swing.JRadioButton rdEcoRubroNo;
     private javax.swing.JRadioButton rdEcoRubroSi;
     private javax.swing.JRadioButton rdEdicionesNo;
     private javax.swing.JRadioButton rdEdicionesSi;
-    private javax.swing.JRadioButton rdEstrucDefinNo;
-    private javax.swing.JRadioButton rdEstrucDefinSi;
-    private javax.swing.JRadioButton rdMarcoJurNo;
-    private javax.swing.JRadioButton rdMarcoJurSi;
-    private javax.swing.JRadioButton rdNormaJusNO;
-    private javax.swing.JRadioButton rdNormaJusSi;
-    private javax.swing.JRadioButton rdNovedadNo2;
-    private javax.swing.JRadioButton rdNovedadSi2;
+    private javax.swing.JRadioButton rdEstrucDifiniaNo;
+    private javax.swing.JRadioButton rdEstrucDifiniaSi;
+    private javax.swing.JRadioButton rdEstructuraPreviaNo;
+    private javax.swing.JRadioButton rdEstructuraPreviaSi;
+    private javax.swing.JRadioButton rdExisteDisenoEvaNo;
+    private javax.swing.JRadioButton rdExisteDisenoEvaSi;
+    private javax.swing.JRadioButton rdMarcoJuridiccionalNo;
+    private javax.swing.JRadioButton rdMarcoJuridiccionalSi;
+    private javax.swing.JRadioButton rdNormaJusticiaNo;
+    private javax.swing.JRadioButton rdNormaJusticiaSi;
+    private javax.swing.JRadioButton rdPresuAsignadoNo;
+    private javax.swing.JRadioButton rdPresuAsignadoSi;
     private javax.swing.JRadioButton rdSistemaSeguimientoNo;
     private javax.swing.JRadioButton rdSistemaSeguimientoSi;
-    private javax.swing.JRadioButton rdbEstricutraSi;
-    private javax.swing.JRadioButton rdbEstructuraNo;
     private javax.swing.JTextField txtAdapContentGrupo;
     private javax.swing.JTextField txtAdaptMeto;
     private javax.swing.JTextField txtAdecEspacio;
@@ -1617,15 +1955,14 @@ public class FrmSostenibilidad extends javax.swing.JFrame {
     private javax.swing.JTextField txtCosteActividad;
     private javax.swing.JTextField txtCriterio;
     private javax.swing.JTextField txtDineroDisp;
-    private javax.swing.JTextField txtDisenoEvaluacion;
     private javax.swing.JTextField txtEcoRubro;
     private javax.swing.JTextField txtEdiciones;
     private javax.swing.JTextField txtEstrucDifinia;
     private javax.swing.JTextField txtEstructuraPrevia;
+    private javax.swing.JTextField txtExisteDisenoEva;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtMarcoJuridiccional;
     private javax.swing.JTextField txtNormaJusticia;
-    private org.jdesktop.swingx.JXComboBox txtNormaJustifica;
     private javax.swing.JTextField txtPractica;
     private javax.swing.JTextField txtPresuAsignado;
     private javax.swing.JTextField txtSistemaSeguimiento;

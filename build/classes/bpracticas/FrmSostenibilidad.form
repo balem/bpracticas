@@ -274,7 +274,7 @@
                       <Component id="pnlNormalizacion" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="pnlPertinencia" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="105" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -305,9 +305,9 @@
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rdbEstricutraSi" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdEstructuraPreviaSi" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rdbEstructuraNo" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdEstructuraPreviaNo" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="lblIdNoveadd4" min="-2" max="-2" attributes="0"/>
@@ -323,9 +323,9 @@
                               <Group type="102" attributes="0">
                                   <Component id="txtAntecedentes" min="-2" pref="297" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="rdNovedadSi2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdAntecedentesSi" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rdNovedadNo2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdAntecedentesNo" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="cboEdiciones" alignment="0" min="-2" pref="297" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
@@ -350,8 +350,8 @@
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txtEstructuraPrevia" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdbEstricutraSi" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdbEstructuraNo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdEstructuraPreviaSi" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdEstructuraPreviaNo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="cboEstructuraPrevia" min="-2" max="-2" attributes="0"/>
@@ -376,8 +376,8 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txtAntecedentes" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdNovedadSi2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdNovedadNo2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdAntecedentesSi" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdAntecedentesNo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="cboAntecendentes" min="-2" max="-2" attributes="0"/>
@@ -393,7 +393,7 @@
                     <Property name="text" type="java.lang.String" value="Inserto en estructura previa"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdbEstricutraSi">
+                <Component class="javax.swing.JRadioButton" name="rdEstructuraPreviaSi">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="btGEstructura"/>
@@ -401,10 +401,10 @@
                     <Property name="text" type="java.lang.String" value="Si"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdbEstricutraSiActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdEstructuraPreviaSiActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdbEstructuraNo">
+                <Component class="javax.swing.JRadioButton" name="rdEstructuraPreviaNo">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="btGEstructura"/>
@@ -412,7 +412,7 @@
                     <Property name="text" type="java.lang.String" value="No"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdbEstructuraNoActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdEstructuraPreviaNoActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblIdNoveadd2">
@@ -471,7 +471,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtAntecedentes">
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdNovedadSi2">
+                <Component class="javax.swing.JRadioButton" name="rdAntecedentesSi">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="groupAntecedentes"/>
@@ -479,10 +479,10 @@
                     <Property name="text" type="java.lang.String" value="Si"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdNovedadSi2ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdAntecedentesSiActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdNovedadNo2">
+                <Component class="javax.swing.JRadioButton" name="rdAntecedentesNo">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="groupAntecedentes"/>
@@ -490,7 +490,7 @@
                     <Property name="text" type="java.lang.String" value="No"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdNovedadNo2ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdAntecedentesNoActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="org.jdesktop.swingx.JXComboBox" name="cboAntecendentes">
@@ -522,16 +522,16 @@
                               <Group type="102" attributes="0">
                                   <Component id="txtNormaJusticia" min="-2" pref="297" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="rdNormaJusSi" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdNormaJusticiaSi" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rdNormaJusNO" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdNormaJusticiaNo" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="txtMarcoJuridiccional" min="-2" pref="297" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="rdMarcoJurSi" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdMarcoJuridiccionalSi" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rdMarcoJurNo" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdMarcoJuridiccionalNo" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
@@ -571,23 +571,23 @@
                               <Group type="102" attributes="0">
                                   <Component id="txtEstrucDifinia" min="-2" pref="297" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="rdEstrucDefinSi" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdEstrucDifiniaSi" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rdEstrucDefinNo" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdEstrucDifiniaNo" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="txtCoheInterna" min="-2" pref="297" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="rdCoheSi" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdCoheInternaSi" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rdCoheNO" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdCoheInternaNo" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Component id="txtDisenoEvaluacion" min="-2" pref="297" max="-2" attributes="0"/>
+                                  <Component id="txtExisteDisenoEva" min="-2" pref="297" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="rdDisenoEvaluacionSi" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdExisteDisenoEvaSi" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rdDisenoEvaluacionNO" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdExisteDisenoEvaNo" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="txtSistemaSeguimiento" min="-2" pref="297" max="-2" attributes="0"/>
@@ -596,11 +596,11 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="rdSistemaSeguimientoNo" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="txtNormaJustifica" min="-2" pref="297" max="-2" attributes="0"/>
+                              <Component id="cboNormaJusticia" min="-2" pref="297" max="-2" attributes="0"/>
                               <Component id="cboMarcoJuridiccional" min="-2" pref="297" max="-2" attributes="0"/>
-                              <Component id="cboPromocion2" min="-2" pref="297" max="-2" attributes="0"/>
-                              <Component id="cboCoheInter" min="-2" pref="297" max="-2" attributes="0"/>
-                              <Component id="cboDisenoEvaluacion" min="-2" pref="297" max="-2" attributes="0"/>
+                              <Component id="cboEstrucDifinia" min="-2" pref="297" max="-2" attributes="0"/>
+                              <Component id="cboCoheInterna" min="-2" pref="297" max="-2" attributes="0"/>
+                              <Component id="cboExisteDisenoEva" min="-2" pref="297" max="-2" attributes="0"/>
                               <Component id="cboSistemaSeguimiento" min="-2" pref="297" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="56" max="32767" attributes="0"/>
@@ -618,11 +618,11 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txtNormaJusticia" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdNormaJusSi" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdNormaJusNO" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdNormaJusticiaSi" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdNormaJusticiaNo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txtNormaJustifica" min="-2" max="-2" attributes="0"/>
+                          <Component id="cboNormaJusticia" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblIdPromocion1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -631,8 +631,8 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txtMarcoJuridiccional" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdMarcoJurSi" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdMarcoJurNo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdMarcoJuridiccionalSi" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdMarcoJuridiccionalNo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="cboMarcoJuridiccional" min="-2" max="-2" attributes="0"/>
@@ -644,11 +644,11 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txtEstrucDifinia" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdEstrucDefinSi" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdEstrucDefinNo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdEstrucDifiniaSi" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdEstrucDifiniaNo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="cboPromocion2" min="-2" max="-2" attributes="0"/>
+                          <Component id="cboEstrucDifinia" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblIdPromocion3" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -657,11 +657,11 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txtCoheInterna" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdCoheSi" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdCoheNO" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdCoheInternaSi" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdCoheInternaNo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="cboCoheInter" min="-2" max="-2" attributes="0"/>
+                          <Component id="cboCoheInterna" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblIdPromocion4" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -669,12 +669,12 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txtDisenoEvaluacion" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdDisenoEvaluacionSi" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdDisenoEvaluacionNO" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtExisteDisenoEva" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdExisteDisenoEvaSi" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdExisteDisenoEvaNo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="cboDisenoEvaluacion" min="-2" max="-2" attributes="0"/>
+                          <Component id="cboExisteDisenoEva" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblIdPromocion5" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -701,7 +701,7 @@
                     <Property name="text" type="java.lang.String" value="Existe norma que la justifica."/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdNormaJusSi">
+                <Component class="javax.swing.JRadioButton" name="rdNormaJusticiaSi">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="groupNormaJus"/>
@@ -709,15 +709,12 @@
                     <Property name="text" type="java.lang.String" value="Si"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdNormaJusNO">
+                <Component class="javax.swing.JRadioButton" name="rdNormaJusticiaNo">
                   <Properties>
-                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="default"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="No"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdNormaJusNOActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdNormaJusticiaNoActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblIdPromocion">
@@ -725,12 +722,12 @@
                     <Property name="text" type="java.lang.String" value="10"/>
                   </Properties>
                 </Component>
-                <Component class="org.jdesktop.swingx.JXComboBox" name="txtNormaJustifica">
+                <Component class="org.jdesktop.swingx.JXComboBox" name="cboNormaJusticia">
                   <Properties>
                     <Property name="editable" type="boolean" value="true"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdMarcoJurNo">
+                <Component class="javax.swing.JRadioButton" name="rdMarcoJuridiccionalNo">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="groupMarcoJuris"/>
@@ -738,10 +735,10 @@
                     <Property name="text" type="java.lang.String" value="No"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdMarcoJurNoActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdMarcoJuridiccionalNoActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdMarcoJurSi">
+                <Component class="javax.swing.JRadioButton" name="rdMarcoJuridiccionalSi">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="groupMarcoJuris"/>
@@ -749,7 +746,7 @@
                     <Property name="text" type="java.lang.String" value="Si"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdMarcoJurSiActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdMarcoJuridiccionalSiActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel11">
@@ -774,14 +771,14 @@
                     <Property name="text" type="java.lang.String" value="Tiene una estructura definida."/>
                   </Properties>
                 </Component>
-                <Component class="org.jdesktop.swingx.JXComboBox" name="cboPromocion2">
+                <Component class="org.jdesktop.swingx.JXComboBox" name="cboEstrucDifinia">
                   <Properties>
                     <Property name="editable" type="boolean" value="true"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtEstrucDifinia">
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdEstrucDefinNo">
+                <Component class="javax.swing.JRadioButton" name="rdEstrucDifiniaNo">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="grupEstruDefin"/>
@@ -789,7 +786,7 @@
                     <Property name="text" type="java.lang.String" value="No"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdEstrucDefinNoActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdEstrucDifiniaNoActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblIdPromocion2">
@@ -797,7 +794,7 @@
                     <Property name="text" type="java.lang.String" value="12"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdEstrucDefinSi">
+                <Component class="javax.swing.JRadioButton" name="rdEstrucDifiniaSi">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="grupEstruDefin"/>
@@ -805,7 +802,7 @@
                     <Property name="text" type="java.lang.String" value="Si"/>
                   </Properties>
                 </Component>
-                <Component class="org.jdesktop.swingx.JXComboBox" name="cboCoheInter">
+                <Component class="org.jdesktop.swingx.JXComboBox" name="cboCoheInterna">
                   <Properties>
                     <Property name="editable" type="boolean" value="true"/>
                   </Properties>
@@ -817,7 +814,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtCoheInterna">
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdCoheSi">
+                <Component class="javax.swing.JRadioButton" name="rdCoheInternaSi">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="groupCoheInt"/>
@@ -825,7 +822,7 @@
                     <Property name="text" type="java.lang.String" value="Si"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdCoheNO">
+                <Component class="javax.swing.JRadioButton" name="rdCoheInternaNo">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="groupCoheInt"/>
@@ -833,7 +830,7 @@
                     <Property name="text" type="java.lang.String" value="No"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdCoheNOActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdCoheInternaNoActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblIdPromocion3">
@@ -846,7 +843,7 @@
                     <Property name="text" type="java.lang.String" value="14"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdDisenoEvaluacionNO">
+                <Component class="javax.swing.JRadioButton" name="rdExisteDisenoEvaNo">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="groupDisenoEvaluacion"/>
@@ -854,7 +851,7 @@
                     <Property name="text" type="java.lang.String" value="No"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdDisenoEvaluacionNOActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdExisteDisenoEvaNoActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel14">
@@ -862,7 +859,7 @@
                     <Property name="text" type="java.lang.String" value="Existe un dise&#xf1;o de evaluaci&#xf3;n"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdDisenoEvaluacionSi">
+                <Component class="javax.swing.JRadioButton" name="rdExisteDisenoEvaSi">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="groupDisenoEvaluacion"/>
@@ -870,9 +867,9 @@
                     <Property name="text" type="java.lang.String" value="Si"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtDisenoEvaluacion">
+                <Component class="javax.swing.JTextField" name="txtExisteDisenoEva">
                 </Component>
-                <Component class="org.jdesktop.swingx.JXComboBox" name="cboDisenoEvaluacion">
+                <Component class="org.jdesktop.swingx.JXComboBox" name="cboExisteDisenoEva">
                   <Properties>
                     <Property name="editable" type="boolean" value="true"/>
                   </Properties>
@@ -940,13 +937,13 @@
                                       <Component id="txtPresuAsignado" alignment="0" min="-2" pref="295" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="rdEcoPresuSi" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdPresuAsignadoSi" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rdEcoPresuNO" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rdPresuAsignadoNo" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="12" pref="12" max="12" attributes="0"/>
-                                  <Component id="cboEcoPresupuesto" min="-2" pref="297" max="-2" attributes="0"/>
+                                  <Component id="cboPresuAsignado" min="-2" pref="297" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="12" pref="12" max="12" attributes="0"/>
@@ -1022,11 +1019,11 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txtPresuAsignado" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdEcoPresuSi" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rdEcoPresuNO" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdPresuAsignadoSi" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdPresuAsignadoNo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cboEcoPresupuesto" min="-2" max="-2" attributes="0"/>
+                          <Component id="cboPresuAsignado" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1079,7 +1076,7 @@
                     <Property name="text" type="java.lang.String" value="Presupuesto asignado"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdEcoPresuSi">
+                <Component class="javax.swing.JRadioButton" name="rdPresuAsignadoSi">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="groupEcoPresu"/>
@@ -1087,7 +1084,7 @@
                     <Property name="text" type="java.lang.String" value="Si"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdEcoPresuNO">
+                <Component class="javax.swing.JRadioButton" name="rdPresuAsignadoNo">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="groupEcoPresu"/>
@@ -1095,7 +1092,7 @@
                     <Property name="text" type="java.lang.String" value="No"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdEcoPresuNOActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdPresuAsignadoNoActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblIdNormalizacion">
@@ -1103,7 +1100,7 @@
                     <Property name="text" type="java.lang.String" value="16"/>
                   </Properties>
                 </Component>
-                <Component class="org.jdesktop.swingx.JXComboBox" name="cboEcoPresupuesto">
+                <Component class="org.jdesktop.swingx.JXComboBox" name="cboPresuAsignado">
                   <Properties>
                     <Property name="editable" type="boolean" value="true"/>
                   </Properties>

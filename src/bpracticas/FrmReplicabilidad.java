@@ -18,7 +18,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
- * @author Daniel San Nicolas
+ * @author Enrique Rodríguez
  */
 public class FrmReplicabilidad extends javax.swing.JFrame {
     int respuesta = 0;
@@ -289,7 +289,7 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
          try {
             
         //cargamos el arreglo    
-            String sql = "SELECT * FROM var_pra_fact where factores like '"+criterio+"'";
+            String sql = "SELECT * FROM var_pra_fact where factores like '"+criterio+"' and practicas = "+txtId.getText();
             System.out.print(sql);
             z.snt = z.con.createStatement();
             z.rs = z.snt.executeQuery(sql);
@@ -315,6 +315,9 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
                         if(Integer.parseInt(arreglo[i][4]) == 1){
                             rdSistemtatizacionSi.setSelected(true);
                             rdSistemtatizacionNo.setSelected(false);
+                        }else{
+                            rdSistemtatizacionSi.setSelected(false);
+                            rdSistemtatizacionNo.setSelected(true);
                         }
                     break;
                     case 25: 
@@ -323,6 +326,9 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
                         if(Integer.parseInt(arreglo[i][4]) == 1){
                             rdDisenoSi.setSelected(true);
                             rdDisenoNo.setSelected(false);
+                        }else{
+                            rdDisenoSi.setSelected(false);
+                            rdDisenoNo.setSelected(true);
                         }
                     break;
                     case 26: 
@@ -331,6 +337,9 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
                         if(Integer.parseInt(arreglo[i][4]) == 1){
                             rdDifusionSi.setSelected(true);
                             rdDifGruposNo.setSelected(false);
+                        }else{
+                            rdDifusionSi.setSelected(false);
+                            rdDifGruposNo.setSelected(true);
                         }
                     break;
                     case 27: 
@@ -339,6 +348,9 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
                         if(Integer.parseInt(arreglo[i][4]) == 1){
                             rdEspaciosSi.setSelected(true);
                             rdEspaciosNo.setSelected(false);
+                        }else{
+                            rdEspaciosSi.setSelected(false);
+                            rdEspaciosNo.setSelected(true);
                         }
                     break;    
                     case 28: 
@@ -347,6 +359,9 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
                         if(Integer.parseInt(arreglo[i][4]) == 1){
                             rdAccionesSi.setSelected(true);
                             rdAccionesNo.setSelected(false);
+                        }else{
+                            rdAccionesSi.setSelected(false);
+                            rdAccionesNo.setSelected(true);
                         }
                     break;
                     case 29: 
@@ -355,6 +370,9 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
                         if(Integer.parseInt(arreglo[i][4]) == 1){
                             rdPracPropiciasSi.setSelected(true);
                             rdPracPropiciasNo.setSelected(false);
+                        }else{
+                            rdPracPropiciasSi.setSelected(false);
+                            rdPracPropiciasNo.setSelected(true);
                         }
                     break; 
                     case 30: 
@@ -363,6 +381,9 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
                         if(Integer.parseInt(arreglo[i][4]) == 1){
                             rdincorporacionSi.setSelected(true);
                             rdIncorporacionNo.setSelected(false);
+                        }else{
+                            rdincorporacionSi.setSelected(false);
+                            rdIncorporacionNo.setSelected(true);
                         }
                     break;
                     case 31: 
@@ -371,6 +392,9 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
                         if(Integer.parseInt(arreglo[i][4]) == 1){
                             rdDifGruposSi.setSelected(true);
                             rdDifGruposNo.setSelected(false);
+                        }else{
+                            rdDifGruposSi.setSelected(false);
+                            rdDifGruposNo.setSelected(true);
                         }
                     break;
                     case 32: 
@@ -379,6 +403,9 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
                         if(Integer.parseInt(arreglo[i][4]) == 1){
                             rdOtrasPracSi.setSelected(true);
                             rdOtrasPracNo.setSelected(false);
+                        }else{
+                            rdOtrasPracSi.setSelected(false);
+                            rdOtrasPracNo.setSelected(true);
                         }
                     break;      
                 }
@@ -1089,8 +1116,6 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btNGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNGuardarActionPerformed
-       //imprimirarray();
-       //if(pregutarEvaluacion("Replicabilidad") == 0){
             abm(getImb());
             evaluacionHecha("replicabilidad");
             JOptionPane.showMessageDialog(this, "Datos guardados correctamente");
@@ -1156,12 +1181,7 @@ public class FrmReplicabilidad extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rdEspaciosNoActionPerformed
 
-    private void imprimirarray(){
-        for (int i = 0; i < this.observacion.length; i++) {
-           System.out.println(cargaVariable("Replicabilidad")[i]); 
-        }
-    }
-    
+ 
     
     /**
      * @param args the command line arguments
