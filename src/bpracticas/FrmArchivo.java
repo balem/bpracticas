@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  *
@@ -52,9 +53,14 @@ public class FrmArchivo extends javax.swing.JDialog {
         initComponents();
         practica(pid);
         confGrilla();
+        if(contarDocumentos(pid) != 0){
+            cargaGilla();
+        }
+        
         if (tabla.getRowCount() > 0) {
             setBand(pid);
         }
+        
     }
     
     //método para activar botones
@@ -101,7 +107,7 @@ public class FrmArchivo extends javax.swing.JDialog {
     
     private void cargaGilla(){
         try {
-            String sql = "SELECT documentos_id, nombre, fecha FROM vdocumentos where practicas_id = "+txtPractica.getText().toString();
+            String sql = "SELECT practicas_id, nombre, fecha FROM vdocumentos where documentos_id = "+txtPractica.getText().toString();
             String[] datos = new String[3];
             z.snt = z.con.createStatement();
             z.rs = z.snt.executeQuery(sql);
@@ -191,7 +197,7 @@ public class FrmArchivo extends javax.swing.JDialog {
             z.rs = z.snt.executeQuery(documento);
             z.rs.next();
             int docId = Integer.parseInt(z.rs.getString("id"));
-            String sql = "INSERT INTO documentos_practicas (documentos, practicas) VALUES ("+docId +", "+txtPractica.getText()+")";
+            String sql = "INSERT INTO documentos_practicas (documentos, practicas) VALUES ("+docId+", "+txtPractica.getText()+")";
             System.out.println(sql);
             z.snt.executeUpdate(sql);
         } catch (SQLException ex) {
@@ -529,8 +535,8 @@ public class FrmArchivo extends javax.swing.JDialog {
             
         if(flag == 2)
             modificar();
-        limpiarGrilla();
-        cargaGilla();}
+            limpiarGrilla();
+            cargaGilla();}
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     
@@ -556,6 +562,20 @@ public class FrmArchivo extends javax.swing.JDialog {
          }
     }//GEN-LAST:event_btnExaminarActionPerformed
 
+    private int contarDocumentos(int practicaId){
+        int cantidad =0;
+        try {
+            String sql = "SELECT count(*) as cant FROM documentos_practicas where practicas ="+practicaId;
+            z.snt = z.con.createStatement();
+            z.rs = z.snt.executeQuery(sql);
+            z.rs.next();
+            cantidad = Integer.parseInt(z.rs.getString("cant").toString());
+            System.out.println(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmArea.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cantidad;
+    }
    
     
     

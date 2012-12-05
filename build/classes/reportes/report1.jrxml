@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="87e833d6-2a65-4595-b13a-c7a3cee07099">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="311"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     practicas.`Titulo` AS practicas_Titulo,
+     practicas.`fecha_inicio` AS practicas_fecha_inicio,
+     practicas.`fecha_fin` AS practicas_fecha_fin,
+     practicas.`tema` AS practicas_tema,
+     practicas.`descripcion` AS practicas_descripcion,
+     practicas.`conclusiones` AS practicas_conclusiones,
+     practicas.`acuerdos` AS practicas_acuerdos,
+     metodologias.`descripcion` AS metodologias_descripcion,
+     localidades.`nombre` AS localidades_nombre,
+     circunscripciones.`descripcion` AS circunscripciones_descripcion
+FROM
+     `metodologias` metodologias INNER JOIN `practicas` practicas ON metodologias.`id` = practicas.`metodologia`
+     INNER JOIN `localidades` localidades ON practicas.`localidades` = localidades.`id`
+     INNER JOIN `circunscripciones` circunscripciones ON localidades.`circunscripciones` = circunscripciones.`id`]]>
+	</queryString>
+	<field name="practicas_Titulo" class="java.lang.String"/>
+	<field name="practicas_fecha_inicio" class="java.sql.Date"/>
+	<field name="practicas_fecha_fin" class="java.sql.Date"/>
+	<field name="practicas_tema" class="java.lang.String"/>
+	<field name="practicas_descripcion" class="java.lang.String"/>
+	<field name="practicas_conclusiones" class="java.lang.String"/>
+	<field name="practicas_acuerdos" class="java.lang.String"/>
+	<field name="metodologias_descripcion" class="java.lang.String"/>
+	<field name="localidades_nombre" class="java.lang.String"/>
+	<field name="circunscripciones_descripcion" class="java.lang.String"/>
+	<group name="practicas_Titulo">
+		<groupExpression><![CDATA[$F{practicas_Titulo}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="10" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="542c5fa0-c465-4723-a7dc-ab2119f66cb5" x="0" y="0" width="243" height="40"/>
+				<textElement>
+					<font fontName="Arial" size="24"/>
+				</textElement>
+				<text><![CDATA[Banco de buenas practicas]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="283" splitType="Stretch">
+			<textField>
+				<reportElement uuid="c2dc2a48-e6e3-4ca0-88df-dbbb9fcea777" x="100" y="26" width="455" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{practicas_Titulo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="75a0a8cb-50e8-4075-8707-042a5179e718" x="0" y="26" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Titulo de la práctica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="75a0a8cb-50e8-4075-8707-042a5179e718" x="0" y="46" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de inicio]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="2a56b0a2-4d03-4c6c-be7c-b3abc16a0a97" x="100" y="46" width="188" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{practicas_fecha_inicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="75a0a8cb-50e8-4075-8707-042a5179e718" x="287" y="46" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de inicio]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="89591d38-3b0c-467e-9613-3576adba2821" x="387" y="46" width="168" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{practicas_fecha_fin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b731ea32-4e11-4ecf-b300-5b571f20a1c3" x="0" y="66" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Circunscripción]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="9ff903c7-60fc-48c1-ae30-c9ddabb653d9" x="100" y="66" width="168" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{circunscripciones_descripcion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b731ea32-4e11-4ecf-b300-5b571f20a1c3" x="268" y="66" width="58" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[localidad]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="6a602c7a-58e2-4579-86ec-10f7fb5b4089" x="326" y="66" width="229" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{localidades_nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="ebef39bb-4630-4a58-a227-c153f6f3cff4" x="0" y="114" width="555" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ebef39bb-4630-4a58-a227-c153f6f3cff4" x="0" y="202" width="555" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Acuerdos tomados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ebef39bb-4630-4a58-a227-c153f6f3cff4" x="0" y="242" width="555" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Conclusiones]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="ea47de96-548c-4eb6-91db-ecd3bd558970" x="0" y="262" width="555" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{practicas_conclusiones}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6f54437e-1a5f-48ce-9b55-7bf7953fcd08" x="0" y="0" width="555" height="26"/>
+				<box bottomPadding="2">
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Arial Black" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Identifiación]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="1190e066-a8ed-4f37-8ce1-b6b97b0cb4c4" x="0" y="135" width="555" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{practicas_descripcion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="ebef39bb-4630-4a58-a227-c153f6f3cff4" x="0" y="156" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Metodología]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="67719385-b09e-47d2-ab29-a6528eaeb32c" x="100" y="156" width="455" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{metodologias_descripcion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6f54437e-1a5f-48ce-9b55-7bf7953fcd08" x="0" y="176" width="555" height="26"/>
+				<box bottomPadding="2">
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Arial Black" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Conclusión]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6f54437e-1a5f-48ce-9b55-7bf7953fcd08" x="0" y="86" width="555" height="26"/>
+				<box bottomPadding="2">
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Arial Black" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desarrollo]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4b52b4aa-311d-47eb-85a1-50a7d7e45888" x="0" y="222" width="555" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{practicas_acuerdos}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement uuid="a7ffc206-43b0-4c62-8d09-4b905f436c9d" x="412" y="34" width="103" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="bb5c35c6-4c1d-45a4-8e71-4fabbd9933a0" x="515" y="34" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

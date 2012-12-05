@@ -46,6 +46,10 @@ public class FrmArea extends javax.swing.JDialog {
             setBand(pid);
         }
         rol();
+        
+        if(contarParticipantes(pid) != 0){
+            cargaGilla();
+        }
     }
     
     //método para activar botones
@@ -457,7 +461,7 @@ public class FrmArea extends javax.swing.JDialog {
                     .addComponent(pnlProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -506,8 +510,24 @@ public class FrmArea extends javax.swing.JDialog {
             modificar();
         limpiarGrilla();
         cargaGilla();}
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private int contarParticipantes(int practicaId){
+        int cantidad =0;
+        try {
+            String sql = "SELECT count(*) as cant FROM vautores where practica_id ="+practicaId;
+            z.snt = z.con.createStatement();
+            z.rs = z.snt.executeQuery(sql);
+            z.rs.next();
+            cantidad = Integer.parseInt(z.rs.getString("cant").toString());
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmArea.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cantidad;
+    }
+    
     private void rol(){
         try {
             String sql = "SELECT * FROM roles where id > 3 order by nombre";

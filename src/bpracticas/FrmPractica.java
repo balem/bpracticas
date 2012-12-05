@@ -30,7 +30,27 @@ public class FrmPractica extends javax.swing.JFrame {
     private JFileChooser buscador = new JFileChooser();
     int flaLo = 0;
     Conexion z = new Conexion();
-    private int action = 1;
+    private static int action = 1;
+    private static int banAutore = 0;
+    private static int banDocs = 0;
+
+    public int getBanAutore() {
+        return banAutore;
+    }
+
+    public void setBanAutore(int banAutore) {
+        this.banAutore = banAutore;
+    }
+
+    public int getBanDocs() {
+        return banDocs;
+    }
+
+    public void setBanDocs(int banDocs) {
+        this.banDocs = banDocs;
+    }
+    
+    
     /**
      * Creates new form frmPractica
      */
@@ -106,12 +126,6 @@ public class FrmPractica extends javax.swing.JFrame {
                     cboCircunscripciones.setSelectedIndex(z.buscaCod(buscarCir) -1);
                     System.out.println(local);                    
                     cboLocalidad.setSelectedItem(local);
-//                    for (int i = 0; i < buscarCir.length(); i++) {
-//                        if(busLoc(cboCircunscripciones.getSelectedItem().toString())[i].equals(local)){
-//                            cboLocalidad.setSelectedItem(local);
-//                        }
-//                    }
-
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(FrmPractica.class.getName()).log(Level.SEVERE, null, ex);
@@ -691,18 +705,18 @@ public class FrmPractica extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        //if(validaPractica()){
+        
             abm(action);
             action = 2;
             habilitarTab(true);
-        //}
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnXAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXAutorActionPerformed
         int xa = Integer.parseInt(txtId.getText().toString());
         FrmArea autor = new FrmArea(this, true, xa);
-        autor.setVisible(true);
         autor.setLocationRelativeTo(null);
+        autor.setVisible(true);
     }//GEN-LAST:event_btnXAutorActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -711,6 +725,7 @@ public class FrmPractica extends javax.swing.JFrame {
 
     private void btnDocumentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocumentosActionPerformed
         FrmArchivo archivo = new FrmArchivo(this, true, Integer.parseInt(this.txtId.getText().toString()));
+        archivo.setLocationRelativeTo(null);
         archivo.setVisible(true);
     }//GEN-LAST:event_btnDocumentosActionPerformed
 
