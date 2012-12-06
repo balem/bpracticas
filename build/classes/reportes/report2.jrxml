@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3961adfd-1944-496e-872c-ff97e19cb0c6">
+	<property name="ireport.zoom" value="0.9090909090909095"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     variables.`descripcion` AS variables,
+     variables_practicas.`valor` AS valor,
+     variables_practicas.`observacion` AS observacion,
+     recomendaciones.`descripcion` AS recomendaciones,
+     factores.`descripcion` AS factor,
+     criterios.`nombre` AS criterio,
+     practicas.`Titulo` AS practica
+FROM
+     `variables` variables INNER JOIN `variables_practicas` variables_practicas ON variables.`id` = variables_practicas.`variables`
+     INNER JOIN `criterios` criterios ON variables.`criterios` = criterios.`id`
+     INNER JOIN `factores` factores ON criterios.`factor` = factores.`id`
+     INNER JOIN `recomendaciones` recomendaciones ON variables_practicas.`recomendaciones` = recomendaciones.`id`
+     INNER JOIN `practicas` practicas ON variables_practicas.`practicas` = practicas.`id`]]>
+	</queryString>
+	<field name="variables" class="java.lang.String"/>
+	<field name="valor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="observacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="recomendaciones" class="java.lang.String"/>
+	<field name="factor" class="java.lang.String"/>
+	<field name="criterio" class="java.lang.String"/>
+	<field name="practica" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="24" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="57" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="542c5fa0-c465-4723-a7dc-ab2119f66cb5" x="0" y="0" width="243" height="40"/>
+				<textElement>
+					<font fontName="Arial" size="24"/>
+				</textElement>
+				<text><![CDATA[Banco de buenas practicas]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="0cf208ec-294a-467e-aea8-076018a6051a" x="551" y="0" width="251" height="40"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{practica}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="082fe43a-decc-4e1c-9ea1-df53742ea12c" x="0" y="0" width="194" height="20"/>
+				<textElement/>
+				<text><![CDATA[variables]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b9c0d567-b30e-40ca-b742-c18af84e27fd" x="194" y="0" width="77" height="20"/>
+				<textElement/>
+				<text><![CDATA[valor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="590778cd-8a25-4b9a-9b83-9b85a0e6325f" x="0" y="0" width="194" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{variables}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4175a3cc-5772-4aad-8e98-498425b2cd62" x="194" y="0" width="77" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
