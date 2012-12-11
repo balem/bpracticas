@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class FrmPrincipal extends javax.swing.JFrame {
     DefaultTableModel modelo = new DefaultTableModel();
     Conexion z = new Conexion();
+    Reporte r = new Reporte();
     static private int modificaras = 0;
     static private String local;
     static private String circuns;
@@ -187,12 +188,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         menHerramientas = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         menUsuario = new javax.swing.JMenuItem();
         menEva = new javax.swing.JMenu();
         menEvaInnovación = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         menEvaParticipacion = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        menRPractica = new javax.swing.JMenuItem();
+        menREvaluacion = new javax.swing.JMenu();
+        menRInnovacion = new javax.swing.JMenuItem();
+        menRSostenibilidad = new javax.swing.JMenuItem();
+        menRParticipacion = new javax.swing.JMenuItem();
+        menRReplicabilidad = new javax.swing.JMenuItem();
 
         mBorrar.setText("Borrar");
         mBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -380,6 +389,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         menHerramientas.add(jMenuItem1);
 
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem7.setText("Localidad");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        menHerramientas.add(jMenuItem7);
+
         menUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         menUsuario.setText("Usuarios");
         menUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -426,6 +444,54 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menEva.add(jMenuItem4);
 
         jMenuBar1.add(menEva);
+
+        jMenu3.setText("Reporte");
+
+        menRPractica.setText("Practia");
+        menRPractica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menRPracticaActionPerformed(evt);
+            }
+        });
+        jMenu3.add(menRPractica);
+
+        menREvaluacion.setText("Evaluación");
+
+        menRInnovacion.setText("Innovación");
+        menRInnovacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menRInnovacionActionPerformed(evt);
+            }
+        });
+        menREvaluacion.add(menRInnovacion);
+
+        menRSostenibilidad.setText("Sostenibilidad");
+        menRSostenibilidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menRSostenibilidadActionPerformed(evt);
+            }
+        });
+        menREvaluacion.add(menRSostenibilidad);
+
+        menRParticipacion.setText("Participación");
+        menRParticipacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menRParticipacionActionPerformed(evt);
+            }
+        });
+        menREvaluacion.add(menRParticipacion);
+
+        menRReplicabilidad.setText("Replicabilidad");
+        menRReplicabilidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menRReplicabilidadActionPerformed(evt);
+            }
+        });
+        menREvaluacion.add(menRReplicabilidad);
+
+        jMenu3.add(menREvaluacion);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -664,6 +730,42 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        new FrmLocalidad();
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void menRPracticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRPracticaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menRPracticaActionPerformed
+
+    private void menRInnovacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRInnovacionActionPerformed
+       String reporte = "../reportes/evaluacion.jasper";
+       String sql ="SELECT * FROM vevaluacion where factores like 'Innovación' and practicas_id ="+Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
+       System.out.print(sql);
+       r.iniciar(sql, reporte);
+    }//GEN-LAST:event_menRInnovacionActionPerformed
+
+    private void menRSostenibilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRSostenibilidadActionPerformed
+       String reporte = "../reportes/evaluacion.jasper";
+       String sql ="SELECT * FROM vevaluacion where factores like 'sostenibilidad' and practicas_id ="+Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
+       System.out.print(sql);
+       r.iniciar(sql, reporte);
+    }//GEN-LAST:event_menRSostenibilidadActionPerformed
+
+    private void menRParticipacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRParticipacionActionPerformed
+       String reporte = "../reportes/evaluacion.jasper";
+       String sql ="SELECT * FROM vevaluacion where factores like 'participacion' and practicas_id ="+Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
+       System.out.print(sql);
+       r.iniciar(sql, reporte);
+    }//GEN-LAST:event_menRParticipacionActionPerformed
+
+    private void menRReplicabilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRReplicabilidadActionPerformed
+       String reporte = "../reportes/evaluacion.jasper";
+       String sql ="SELECT * FROM vevaluacion where factores like 'Replicabilidad' and practicas_id ="+Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
+       System.out.print(sql);
+       r.iniciar(sql, reporte);
+    }//GEN-LAST:event_menRReplicabilidadActionPerformed
+
     
     private int criterio(String criterio){
          int valCriterio =0;
@@ -731,6 +833,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -738,6 +841,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAdd;
@@ -750,6 +854,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menEvaInnovación;
     private javax.swing.JMenuItem menEvaParticipacion;
     private javax.swing.JMenu menHerramientas;
+    private javax.swing.JMenu menREvaluacion;
+    private javax.swing.JMenuItem menRInnovacion;
+    private javax.swing.JMenuItem menRParticipacion;
+    private javax.swing.JMenuItem menRPractica;
+    private javax.swing.JMenuItem menRReplicabilidad;
+    private javax.swing.JMenuItem menRSostenibilidad;
     private javax.swing.JMenuItem menSalir;
     private javax.swing.JMenuItem menUsuario;
     private javax.swing.JPanel pnlAcciones;

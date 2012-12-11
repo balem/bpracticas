@@ -11,7 +11,9 @@
      recomendaciones.`descripcion` AS recomendaciones,
      factores.`descripcion` AS factor,
      criterios.`nombre` AS criterio,
-     practicas.`Titulo` AS practica
+     practicas.`Titulo` AS practica,
+     practicas.`fecha_inicio` AS inicio,
+     practicas.`fecha_fin` AS fin
 FROM
      `variables` variables INNER JOIN `variables_practicas` variables_practicas ON variables.`id` = variables_practicas.`variables`
      INNER JOIN `criterios` criterios ON variables.`criterios` = criterios.`id`
@@ -30,6 +32,9 @@ FROM
 	<field name="factor" class="java.lang.String"/>
 	<field name="criterio" class="java.lang.String"/>
 	<field name="practica" class="java.lang.String"/>
+	<field name="inicio" class="java.sql.Date"/>
+	<field name="fin" class="java.sql.Date"/>
+	<variable name="valorSeleccionado" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -37,7 +42,7 @@ FROM
 		<band height="24" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="57" splitType="Stretch">
+		<band height="70" splitType="Stretch">
 			<staticText>
 				<reportElement uuid="542c5fa0-c465-4723-a7dc-ab2119f66cb5" x="0" y="0" width="243" height="40"/>
 				<textElement>
@@ -46,44 +51,186 @@ FROM
 				<text><![CDATA[Banco de buenas practicas]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="0cf208ec-294a-467e-aea8-076018a6051a" x="551" y="0" width="251" height="40"/>
+				<reportElement uuid="0cf208ec-294a-467e-aea8-076018a6051a" x="551" y="0" width="251" height="20"/>
 				<textElement>
-					<font size="24"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{practica}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement uuid="082fe43a-decc-4e1c-9ea1-df53742ea12c" x="422" y="0" width="129" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Título de la práctica]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4f5564a8-49a4-419f-9137-1cf45ed0cdae" x="553" y="20" width="251" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{inicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9509eb91-515c-4c27-9318-1ea542e0e11c" x="551" y="40" width="251" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{fin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="082fe43a-decc-4e1c-9ea1-df53742ea12c" x="422" y="20" width="129" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="082fe43a-decc-4e1c-9ea1-df53742ea12c" x="424" y="40" width="129" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de finalización]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="082fe43a-decc-4e1c-9ea1-df53742ea12c" x="0" y="0" width="194" height="20"/>
-				<textElement/>
+				<reportElement uuid="082fe43a-decc-4e1c-9ea1-df53742ea12c" x="0" y="0" width="248" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[variables]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="b9c0d567-b30e-40ca-b742-c18af84e27fd" x="194" y="0" width="77" height="20"/>
-				<textElement/>
+				<reportElement uuid="b9c0d567-b30e-40ca-b742-c18af84e27fd" x="248" y="0" width="65" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b14d0bdb-c1ca-41cc-a10b-1b986b1891eb" x="526" y="0" width="131" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[factor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0ff884c8-8ae7-4022-94b1-8a485cb0a018" x="313" y="0" width="213" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[recomendaciones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dda0e8a2-db5e-4f8a-b770-2ff1caac4770" x="657" y="0" width="145" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[criterio]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement uuid="590778cd-8a25-4b9a-9b83-9b85a0e6325f" x="0" y="0" width="194" height="20"/>
+				<reportElement uuid="590778cd-8a25-4b9a-9b83-9b85a0e6325f" x="0" y="0" width="248" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{variables}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="4175a3cc-5772-4aad-8e98-498425b2cd62" x="194" y="0" width="77" height="20"/>
+				<reportElement uuid="4175a3cc-5772-4aad-8e98-498425b2cd62" x="248" y="0" width="65" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="acb04a2f-2d59-4a88-b4bd-a4ec0ad1735f" x="526" y="0" width="131" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{factor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7ebd194f-64a4-4424-ba53-c7c43827a22a" x="313" y="0" width="213" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{recomendaciones}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="14b08fb5-a845-46d5-ba70-b95911b97631" x="657" y="0" width="145" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{criterio}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="45" splitType="Stretch">
+			<textField>
+				<reportElement uuid="588e8381-f433-40c1-a087-a0c291ffa887" x="638" y="25" width="164" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{valorSeleccionado}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch"/>
