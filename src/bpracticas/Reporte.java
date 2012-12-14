@@ -15,8 +15,9 @@ import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
- * @author Daniel San Nicolas
+ * @author Enrique Rodríguez
  */
+
 public class Reporte {
     Conexion z = new Conexion();
 
@@ -30,16 +31,14 @@ public class Reporte {
             HashMap parameters = new HashMap();
             
             URL urlMaestro = getClass().getResource(reporte);
-            //String urlMaestro = "factura.jasper";
-            // Cargamos el reporte
+            
             JasperReport masterReport = null;
-            //masterReport = urlMaestro
+            
             masterReport = (JasperReport) JRLoader.loadObject(urlMaestro);
             JasperPrint masterPrint;
-           
-                    
+                               
             masterPrint = JasperFillManager.fillReport(masterReport, parameters, jrRS);
-            JasperExportManager.exportReportToPdfFile(masterPrint, "reporteWord.docx");
+
             JasperViewer ventana = new JasperViewer(masterPrint, false);
             ventana.setTitle("Vista Previa");
             ventana.setVisible(true);

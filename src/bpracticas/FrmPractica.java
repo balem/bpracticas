@@ -692,7 +692,6 @@ public class FrmPractica extends javax.swing.JFrame {
     private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTituloActionPerformed
-
     
     
     private void cboCircunscripcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCircunscripcionesActionPerformed

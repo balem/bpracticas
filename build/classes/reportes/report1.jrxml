@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="87e833d6-2a65-4595-b13a-c7a3cee07099">
 	<property name="ireport.zoom" value="1.100000000000001"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="157"/>
+	<property name="ireport.y" value="121"/>
 	<queryString>
 		<![CDATA[SELECT * from vpractica;]]>
 	</queryString>
@@ -66,7 +66,7 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="265" splitType="Stretch">
+		<band height="161" splitType="Stretch">
 			<staticText>
 				<reportElement uuid="75a0a8cb-50e8-4075-8707-042a5179e718" x="0" y="26" width="100" height="20"/>
 				<textElement>
@@ -110,13 +110,6 @@
 				<text><![CDATA[Descripción]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="ebef39bb-4630-4a58-a227-c153f6f3cff4" x="0" y="224" width="555" height="20"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Acuerdos tomados]]></text>
-			</staticText>
-			<staticText>
 				<reportElement uuid="6f54437e-1a5f-48ce-9b55-7bf7953fcd08" x="0" y="0" width="555" height="26"/>
 				<box bottomPadding="2">
 					<bottomPen lineWidth="0.5"/>
@@ -125,13 +118,6 @@
 					<font fontName="Arial Black" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Identifiación]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="ebef39bb-4630-4a58-a227-c153f6f3cff4" x="0" y="158" width="555" height="20"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Metodología]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="6f54437e-1a5f-48ce-9b55-7bf7953fcd08" x="0" y="86" width="555" height="26"/>
@@ -168,23 +154,27 @@
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="13fd6e0d-ce4c-485a-8aa3-49d4169801b0" x="0" y="178" width="555" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{metodologias}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="708a9169-06b6-461d-93b5-e6da968b3a2d" x="0" y="244" width="555" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{acuerdos}]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement uuid="3a697859-7fb3-4589-81da-eb774d4d4824" x="100" y="26" width="455" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
 			</textField>
+		</band>
+		<band height="113">
 			<staticText>
-				<reportElement uuid="6f54437e-1a5f-48ce-9b55-7bf7953fcd08" x="0" y="198" width="555" height="26"/>
+				<reportElement uuid="ebef39bb-4630-4a58-a227-c153f6f3cff4" x="0" y="70" width="555" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Acuerdos tomados]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="708a9169-06b6-461d-93b5-e6da968b3a2d" x="0" y="90" width="555" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{acuerdos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6f54437e-1a5f-48ce-9b55-7bf7953fcd08" x="0" y="44" width="555" height="26"/>
 				<box bottomPadding="2">
 					<bottomPen lineWidth="0.5"/>
 				</box>
@@ -193,8 +183,20 @@
 				</textElement>
 				<text><![CDATA[Conclusión]]></text>
 			</staticText>
+			<staticText>
+				<reportElement uuid="ebef39bb-4630-4a58-a227-c153f6f3cff4" x="0" y="0" width="555" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Metodología]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="13fd6e0d-ce4c-485a-8aa3-49d4169801b0" x="0" y="21" width="554" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{metodologias}]]></textFieldExpression>
+			</textField>
 		</band>
-		<band height="50">
+		<band height="43">
 			<staticText>
 				<reportElement uuid="ebef39bb-4630-4a58-a227-c153f6f3cff4" x="0" y="0" width="555" height="20"/>
 				<textElement>
@@ -210,7 +212,7 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="2" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch">

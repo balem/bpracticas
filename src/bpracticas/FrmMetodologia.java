@@ -1,3 +1,5 @@
+package bpracticas;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -8,8 +10,9 @@
  *
  * Created on 10/03/2012, 07:36:04 PM
  */
-package bpracticas;
 
+
+import bpracticas.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,16 +23,18 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author bala
  */
-public class FrmCircunscripcion extends javax.swing.JFrame {
+public class FrmMetodologia extends javax.swing.JFrame {
     DefaultTableModel modelo = new DefaultTableModel();
      Conexion z = new Conexion();
      int flag = 0;
 
     /** Creates new form FrmProveedores */
-    public FrmCircunscripcion() {
+    public FrmMetodologia() {
         initComponents();
         confGrilla();
         cargaGilla();
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
     
     //método para activar botones
@@ -57,7 +62,7 @@ public class FrmCircunscripcion extends javax.swing.JFrame {
     
     private void cargaGilla(){
         try {
-            String sql = "SELECT id, descripcion FROM circunscripciones;";
+            String sql = "SELECT * FROM metodologias";
             String[] datos = new String[5];
             z.snt = z.con.createStatement();
             z.rs = z.snt.executeQuery(sql);
@@ -86,7 +91,7 @@ public class FrmCircunscripcion extends javax.swing.JFrame {
     private void insertar(){
         
         try {
-            String sql = "INSERT INTO circunscripciones"+
+            String sql = "INSERT INTO metodologias"+
                     " (descripcion) VALUES ('"+
                     txtDescripcion.getText().toString()+"')";
             z.snt = z.con.createStatement();
@@ -98,7 +103,7 @@ public class FrmCircunscripcion extends javax.swing.JFrame {
 
     private void modificar(){
         try {
-            String sql ="UPDATE circunscripciones SET descripcion = '"+
+            String sql ="UPDATE metodologias SET descripcion = '"+
                     txtDescripcion.getText()+
                     "' WHERE id = "+
                     txtCodigo.getText();
@@ -112,7 +117,7 @@ public class FrmCircunscripcion extends javax.swing.JFrame {
     
     private void borrar(){
         try {
-            String sql = "DELETE FROM circunscripciones WHERE id = "+txtCodigo.getText();
+            String sql = "DELETE FROM metodologia WHERE id = "+txtCodigo.getText();
             z.snt = z.con.createStatement();
             z.snt.executeUpdate(sql);
         } catch (SQLException ex) {
@@ -154,7 +159,7 @@ public class FrmCircunscripcion extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        pnlProveedor.setBorder(javax.swing.BorderFactory.createTitledBorder("Circunscripciones"));
+        pnlProveedor.setBorder(javax.swing.BorderFactory.createTitledBorder("Metodología"));
 
         lblCodigo.setText("Código");
 
@@ -324,7 +329,7 @@ public class FrmCircunscripcion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

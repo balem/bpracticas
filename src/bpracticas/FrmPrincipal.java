@@ -190,6 +190,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         menUsuario = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         menEva = new javax.swing.JMenu();
         menEvaInnovación = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -366,9 +367,19 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenu2.setText("Editar");
 
         jMenuItem3.setText("Modificar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem3);
 
         jMenuItem5.setText("borrar");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
@@ -398,7 +409,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         menHerramientas.add(jMenuItem7);
 
-        menUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        menUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
         menUsuario.setText("Usuarios");
         menUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -406,6 +417,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         menHerramientas.add(menUsuario);
+
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem8.setText("Metodología");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        menHerramientas.add(jMenuItem8);
 
         jMenuBar1.add(menHerramientas);
 
@@ -630,6 +650,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
             FrmPractica practica = new FrmPractica();
             practica.setLocationRelativeTo(null);
             practica.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione la practica que desee modificar");
         }
         
     }//GEN-LAST:event_lblModificarMouseClicked
@@ -637,26 +659,31 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void lblBorrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBorrarMouseClicked
         if(tabla.getSelectedRow() > -1){
             borrarPractica();
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione la práctica que desee borrar");
         }
     }//GEN-LAST:event_lblBorrarMouseClicked
 
     private void menEvaInnovaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menEvaInnovaciónActionPerformed
-
-        if(saberEvaluar("innovacion") == 0){
-            setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
-            FrmInnovacion innovacion = new FrmInnovacion();
-            innovacion.setVisible(true);
-            innovacion.setLocationRelativeTo(null);
-        }else{
-            int op = JOptionPane.showConfirmDialog(null,"El criterio para esta práctica ya fue evaluado con anterioridad, desea modificar la evalucaicón","Seleccione una opción",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
-            if(op == JOptionPane.OK_OPTION){
+        int rowcheck = tabla.getSelectedRow();
+        if(rowcheck > -1){
+            if(saberEvaluar("innovacion") == 0){
                 setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
                 FrmInnovacion innovacion = new FrmInnovacion();
                 innovacion.setVisible(true);
                 innovacion.setLocationRelativeTo(null);
+            }else{
+                int op = JOptionPane.showConfirmDialog(null,"El criterio para esta práctica ya fue evaluado con anterioridad, desea modificar la evalucaicón","Seleccione una opción",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
+                if(op == JOptionPane.OK_OPTION){
+                    setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+                    FrmInnovacion innovacion = new FrmInnovacion();
+                    innovacion.setVisible(true);
+                    innovacion.setLocationRelativeTo(null);
+                }
             }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una práctica");
         }
-        
     }//GEN-LAST:event_menEvaInnovaciónActionPerformed
 
     private int saberEvaluar(String factor){
@@ -679,55 +706,73 @@ public class FrmPrincipal extends javax.swing.JFrame {
     
     
     private void menEvaParticipacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menEvaParticipacionActionPerformed
-        if(saberEvaluar("participacion") == 0){
-            setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
-            FrmParticipacion participacion = new FrmParticipacion();
-            participacion.setVisible(true);
-            participacion.setLocationRelativeTo(null);
-        }else{
-            int op = JOptionPane.showConfirmDialog(null,"El criterio para esta práctica ya fue evaluado con anterioridad, desea modificar la evalucaicón","Seleccione una opción",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
-            if(op == JOptionPane.OK_OPTION){
+        int rowcheck = tabla.getSelectedRow();
+        if(rowcheck > -1){
+            if(saberEvaluar("participacion") == 0){
                 setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
                 FrmParticipacion participacion = new FrmParticipacion();
                 participacion.setVisible(true);
                 participacion.setLocationRelativeTo(null);
+            }else{
+                int op = JOptionPane.showConfirmDialog(null,"El criterio para esta práctica ya fue evaluado con anterioridad, desea modificar la evalucaicón","Seleccione una opción",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
+                if(op == JOptionPane.OK_OPTION){
+                    setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+                    FrmParticipacion participacion = new FrmParticipacion();
+                    participacion.setVisible(true);
+                    participacion.setLocationRelativeTo(null);
+                }
             }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una práctica");
         }
     }//GEN-LAST:event_menEvaParticipacionActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        if(saberEvaluar("replicabilidad") == 0){
-            setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
-            FrmReplicabilidad replicabilidad = new FrmReplicabilidad();
-            replicabilidad.setVisible(true);
-            replicabilidad.setLocationRelativeTo(null);
-        }else{
-            int op = JOptionPane.showConfirmDialog(null,"El criterio para esta práctica ya fue evaluado con anterioridad, desea modificar la evalucaicón","Seleccione una opción",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
-            if(op == JOptionPane.OK_OPTION){
+        int rowcheck = tabla.getSelectedRow();
+        if(rowcheck > -1){
+            if(saberEvaluar("replicabilidad") == 0){
                 setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
                 FrmReplicabilidad replicabilidad = new FrmReplicabilidad();
                 replicabilidad.setVisible(true);
                 replicabilidad.setLocationRelativeTo(null);
+            }else{
+                int op = JOptionPane.showConfirmDialog(null,"El criterio para esta práctica ya fue evaluado con anterioridad, desea modificar la evalucaicón","Seleccione una opción",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
+                if(op == JOptionPane.OK_OPTION){
+                    setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+                    FrmReplicabilidad replicabilidad = new FrmReplicabilidad();
+                    replicabilidad.setVisible(true);
+                    replicabilidad.setLocationRelativeTo(null);
+                }
             }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una práctica");
         }
+        
        
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        if(saberEvaluar("sostenibilidad") == 0){
-            setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
-            FrmSostenibilidad   sostenibilidad = new FrmSostenibilidad();
-            sostenibilidad.setVisible(true);
-            sostenibilidad.setLocationRelativeTo(null);
-        }else{
-            int op = JOptionPane.showConfirmDialog(null,"El criterio para esta práctica ya fue evaluado con anterioridad, desea modificar la evalucaicón","Seleccione una opción",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
-            if(op == JOptionPane.OK_OPTION){
+         int rowcheck = tabla.getSelectedRow();
+        if(rowcheck > -1){
+            if(saberEvaluar("sostenibilidad") == 0){
                 setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
-                FrmSostenibilidad sostenibilidad = new FrmSostenibilidad();
+                FrmSostenibilidad   sostenibilidad = new FrmSostenibilidad();
                 sostenibilidad.setVisible(true);
                 sostenibilidad.setLocationRelativeTo(null);
+            }else{
+                int op = JOptionPane.showConfirmDialog(null,"El criterio para esta práctica ya fue evaluado con anterioridad, desea modificar la evalucaicón","Seleccione una opción",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
+                if(op == JOptionPane.OK_OPTION){
+                    setEvaluar(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+                    FrmSostenibilidad sostenibilidad = new FrmSostenibilidad();
+                    sostenibilidad.setVisible(true);
+                    sostenibilidad.setLocationRelativeTo(null);
             }
         }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una práctica");
+        }
+        
+        
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -735,36 +780,87 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void menRPracticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRPracticaActionPerformed
-        // TODO add your handling code here:
+        int rowcheck = tabla.getSelectedRow();
+        if(rowcheck > -1){
+            String reporte = "../reportes/report1.jasper";
+            String sql ="SELECT * FROM vpractica where id ="+Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
+            System.out.print(sql);
+            r.iniciar(sql, reporte);
+       }else{
+           JOptionPane.showMessageDialog(this, "Debe seleccionar una práctica");
+       }
     }//GEN-LAST:event_menRPracticaActionPerformed
 
     private void menRInnovacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRInnovacionActionPerformed
+       int rowcheck = tabla.getSelectedRow();
+        if(rowcheck > -1){
        String reporte = "../reportes/evaluacion.jasper";
        String sql ="SELECT * FROM vevaluacion where factores like 'Innovación' and practicas_id ="+Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
        System.out.print(sql);
        r.iniciar(sql, reporte);
+       }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una práctica");
+       }
     }//GEN-LAST:event_menRInnovacionActionPerformed
 
     private void menRSostenibilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRSostenibilidadActionPerformed
-       String reporte = "../reportes/evaluacion.jasper";
+       int rowcheck = tabla.getSelectedRow();
+        if(rowcheck > -1){
+        String reporte = "../reportes/evaluacion.jasper";
        String sql ="SELECT * FROM vevaluacion where factores like 'sostenibilidad' and practicas_id ="+Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
        System.out.print(sql);
        r.iniciar(sql, reporte);
+       }else{
+           JOptionPane.showMessageDialog(this, "Debe seleccionar una practica");
+       }
     }//GEN-LAST:event_menRSostenibilidadActionPerformed
 
     private void menRParticipacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRParticipacionActionPerformed
-       String reporte = "../reportes/evaluacion.jasper";
-       String sql ="SELECT * FROM vevaluacion where factores like 'participacion' and practicas_id ="+Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
-       System.out.print(sql);
-       r.iniciar(sql, reporte);
+        int rowcheck = tabla.getSelectedRow();
+        if(rowcheck > -1){
+        String reporte = "../reportes/evaluacion.jasper";
+        String sql ="SELECT * FROM vevaluacion where factores like 'participacion' and practicas_id ="+Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
+        System.out.print(sql);
+        r.iniciar(sql, reporte);
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una practica");
+        }
     }//GEN-LAST:event_menRParticipacionActionPerformed
 
     private void menRReplicabilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRReplicabilidadActionPerformed
-       String reporte = "../reportes/evaluacion.jasper";
-       String sql ="SELECT * FROM vevaluacion where factores like 'Replicabilidad' and practicas_id ="+Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
-       System.out.print(sql);
-       r.iniciar(sql, reporte);
+        int rowcheck = tabla.getSelectedRow();
+        if(rowcheck > -1){
+            String reporte = "../reportes/evaluacion.jasper";
+            String sql ="SELECT * FROM vevaluacion where factores like 'Replicabilidad' and practicas_id ="+Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
+            System.out.print(sql);
+            r.iniciar(sql, reporte);
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una practica");
+        }
     }//GEN-LAST:event_menRReplicabilidadActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        if(tabla.getSelectedRow() > -1){
+            setModificaras(Integer.parseInt(modelo.getValueAt(tabla.getSelectedRow(), 0).toString()));
+            FrmPractica practica = new FrmPractica();
+            practica.setLocationRelativeTo(null);
+            practica.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione la practica que desee modificar");
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+         if(tabla.getSelectedRow() > -1){
+            borrarPractica();
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione la práctica que desee borrar");
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        new FrmMetodologia();
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     
     private int criterio(String criterio){
@@ -842,6 +938,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAdd;
