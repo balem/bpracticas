@@ -13,7 +13,7 @@ public class Conexion {
     Connection con;
     Statement snt;
     ResultSet rs;
-    File f = new File( "C:\\conexion.txt" );
+    File f = new File( "conexion.txt" );
     BufferedReader entrada;
     static String server = "";
     static String usr = "";
